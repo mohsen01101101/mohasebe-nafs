@@ -1,9 +1,6 @@
 from sqlmodel import Field, SQLModel, UniqueConstraint
 from datetime import datetime
-from zoneinfo import ZoneInfo
-
-
-IRAN_TZ = ZoneInfo("Asia/Tehran")
+from app.core.constants import IRAN_TZ
 
 
 class List(SQLModel, table=True):

@@ -1,10 +1,7 @@
 from sqlmodel import Field, SQLModel, UniqueConstraint, CheckConstraint
 from app.domain.enum.tracking_type import TrackingType
 from datetime import datetime
-from zoneinfo import ZoneInfo
-
-
-IRAN_TZ = ZoneInfo("Asia/Tehran")
+from app.core.constants import IRAN_TZ
 
 
 class Action(SQLModel, table=True):
