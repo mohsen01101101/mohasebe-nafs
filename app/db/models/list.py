@@ -9,7 +9,7 @@ IRAN_TZ = ZoneInfo("Asia/Tehran")
 class List(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     user_id: int = Field(foreign_key="user.id")
-    title: str
+    title: str = Field(nullable=False)
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(IRAN_TZ))
 
