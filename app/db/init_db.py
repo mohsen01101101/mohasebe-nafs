@@ -3,4 +3,5 @@ from app.db.database import engine
 from app.db.models import user, list, action
 
 
-SQLModel.metadata.create_all(engine)
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)
