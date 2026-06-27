@@ -1,11 +1,13 @@
-from pydantic_settings import BaseSettings
-
-
-sqlite_file_name = "database.db"
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    sqlite_url = f"sqlite:///{sqlite_file_name}"
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore",
+    )
+
+    sqlite_url: str = "sqlite:///database.db"
 
 
 settings = Settings()
