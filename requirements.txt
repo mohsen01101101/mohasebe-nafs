@@ -3,3 +3,4 @@ python-fasthtml==0.14.3
 sqlmodel==0.0.39
 pydantic-settings==2.14.2
 tzdata==2026.2
+bcrypt==5.0.0
