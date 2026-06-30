@@ -6,7 +6,7 @@ from app.core.constants import IRAN_TZ
 
 class Action(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    list_id: int = Field(foreign_key="list.id")
+    list_id: int = Field(foreign_key="list.id", ondelete="CASCADE")
     title: str = Field(nullable=False)
     description: str | None = Field(default=None)
     tracking_type: TrackingType = Field(nullable=False)
