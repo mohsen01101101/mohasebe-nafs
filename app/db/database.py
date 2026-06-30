@@ -3,7 +3,10 @@ from app.core.config import settings
 from sqlalchemy import event
 
 
-engine = create_engine(settings.sqlite_url)
+engine = create_engine(
+    settings.sqlite_url,
+    connect_args={"check_same_thread": False}
+)
 
 
 @event.listens_for(engine, "connect")
