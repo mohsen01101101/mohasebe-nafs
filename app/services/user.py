@@ -76,4 +76,4 @@ class UserService:
         self.session.delete(user)
         self.session.commit()
 
-        return True
+        return None
