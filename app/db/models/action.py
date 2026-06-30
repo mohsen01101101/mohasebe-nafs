@@ -10,15 +10,27 @@ class Action(SQLModel, table=True):
     title: str = Field(nullable=False)
     description: str | None = Field(default=None)
     tracking_type: TrackingType = Field(nullable=False)
-    is_done: bool = Field(default=False)
-    rating: int = Field(default=0)
+    is_done: bool | None = Field(default=None)
+    rating: int | None = Field(default=None)
     started_at: datetime = Field(
         default_factory=lambda: datetime.now(IRAN_TZ))
 
     __table_args__ = (
         UniqueConstraint("list_id", "title"),
         CheckConstraint(
-            "(tracking_type != 'RATING') OR (rating BETWEEN 0 and 5)",
-            name="validate_rating_range"
+            """
+            (
+                tracking_type = 'CHECKBOX'
+                AND rating IS NULL
+                AND is_done IS NOT NULL
+            )
+            OR
+            (
+                tracking_type = 'RATING'
+                AND is_done IS NULL
+                AND rating BETWEEN 0 AND 5
+            )
+            """,
+            name="validate_tracking_fields"
         ),
     )
