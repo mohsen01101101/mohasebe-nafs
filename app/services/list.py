@@ -19,10 +19,10 @@ class ListService:
         title: str,
         created_at: datetime | None
     ):
-        existing = self._get_by_user_id_and_title(user_id, title)
+        duplicate = self._get_by_user_id_and_title(user_id, title)
 
-        if existing:
-            raise ValueError("The list already exists!")
+        if duplicate:
+            raise ValueError("The list already exists.")
 
         data = {
             "user_id": user_id,
@@ -49,12 +49,12 @@ class ListService:
         existing = self.session.get(List, list_id)
 
         if not existing or existing.user_id != user_id:
-            raise ValueError("List not found!")
+            raise ValueError("List not found.")
 
         duplicate = self._get_by_user_id_and_title(user_id, new_title)
 
         if duplicate and duplicate.id != list_id:
-            raise ValueError("The list already exists!")
+            raise ValueError("The list already exists.")
 
         existing.title = new_title
 
@@ -71,7 +71,7 @@ class ListService:
         existing = self.session.get(List, list_id)
 
         if not existing or existing.user_id != user_id:
-            raise ValueError("List not found!")
+            raise ValueError("List not found.")
 
         self.session.delete(existing)
         self.session.commit()
