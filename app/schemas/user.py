@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from app.domain.enum.role import Role
 
 
@@ -15,6 +15,8 @@ class UserLogin(BaseModel):
 
 
 class UserRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     phone_number: str
     id: int
     name: str
