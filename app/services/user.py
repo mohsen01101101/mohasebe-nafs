@@ -22,7 +22,7 @@ class UserService:
         role: Role = Role.STUDENT
     ):
         if self._get_by_phone_number(phone_number):
-            raise ValueError("Phone number already exists!")
+            raise ValueError("Phone number already exists.")
 
         hashed_password = hash_password(password)
 
@@ -47,10 +47,10 @@ class UserService:
         user = self._get_by_phone_number(phone_number)
 
         if not user:
-            raise ValueError("Invalid credentials!")
+            raise ValueError("Invalid credentials.")
 
         if not verify_password(password, user.password_hash):
-            raise ValueError("Invalid credentials!")
+            raise ValueError("Invalid credentials.")
 
         return user
 
@@ -62,10 +62,10 @@ class UserService:
         user = self.session.get(User, user_id)
 
         if not user:
-            raise ValueError("User not found!")
+            raise ValueError("User not found.")
 
         if not verify_password(password, user.password_hash):
-            raise ValueError("Incorrect password!")
+            raise ValueError("Incorrect password.")
 
         self.session.delete(user)
         self.session.commit()
