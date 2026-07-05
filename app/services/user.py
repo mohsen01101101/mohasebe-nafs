@@ -14,12 +14,6 @@ class UserService:
 
         return result.all()
 
-    def get_by_phone_number(self, phone_number: str):
-        statement = select(User).where(User.phone_number == phone_number)
-        result = self.session.exec(statement)
-
-        return result.first()
-
     def register(
         self,
         phone_number: str,
@@ -27,7 +21,7 @@ class UserService:
         password: str,
         role: Role = Role.STUDENT
     ):
-        if self.get_by_phone_number(phone_number):
+        if self._get_by_phone_number(phone_number):
             raise ValueError("Phone number already exists!")
 
         hashed_password = hash_password(password)
@@ -50,7 +44,7 @@ class UserService:
         phone_number: str,
         password: str
     ):
-        user = self.get_by_phone_number(phone_number)
+        user = self._get_by_phone_number(phone_number)
 
         if not user:
             raise ValueError("Invalid credentials!")
@@ -77,3 +71,9 @@ class UserService:
         self.session.commit()
 
         return None
+
+    def _get_by_phone_number(self, phone_number: str):
+        statement = select(User).where(User.phone_number == phone_number)
+        result = self.session.exec(statement)
+
+        return result.first()
