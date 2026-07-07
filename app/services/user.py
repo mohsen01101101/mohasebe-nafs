@@ -14,6 +14,14 @@ class UserService:
 
         return result.all()
 
+    def get_by_id(self, user_id: int):
+        user = self.session.get(User, user_id)
+
+        if not user:
+            raise ValueError("User not found.")
+
+        return user
+
     def register(
         self,
         phone_number: str,
