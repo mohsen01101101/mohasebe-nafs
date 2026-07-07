@@ -31,6 +31,6 @@ class UserDelete(BaseModel):
     password: str
 
 
-class Token(BaseModel):
+class TokenResponse(BaseModel):
     access_token: str
     token_type: str
