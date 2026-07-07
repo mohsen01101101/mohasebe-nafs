@@ -1,12 +1,10 @@
 from pydantic import BaseModel, ConfigDict
-from app.domain.enum.role import Role
 
 
 class UserRegister(BaseModel):
     phone_number: str
     name: str
     password: str
-    role: Role = Role.STUDENT
 
 
 class UserLogin(BaseModel):
