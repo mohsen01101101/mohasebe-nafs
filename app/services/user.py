@@ -2,14 +2,15 @@ from sqlmodel import Session, select
 from app.domain.enum.role import Role
 from app.db.models.user import User
 from app.core.security import hash_password, verify_password
+from app.domain.enum.role import Role
 
 
 class UserService:
     def __init__(self, session: Session):
         self.session = session
 
-    def get_all(self):
-        statement = select(User)
+    def get_all(self, role: Role = Role.STUDENT):
+        statement = select(User).where(User.role == role)
         result = self.session.exec(statement)
 
         return result.all()
