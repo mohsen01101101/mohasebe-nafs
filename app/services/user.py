@@ -63,6 +63,33 @@ class UserService:
 
         return user
 
+    def update(
+        self,
+        user_id: int,
+        name: str | None,
+        current_password: str,
+        new_password: str | None,
+    ):
+        user = self.session.get(User, user_id)
+
+        if not user:
+            raise ValueError("User not found.")
+
+        if not verify_password(current_password, user.password_hash):
+            raise ValueError("Invalid password.")
+
+        if name is not None:
+            user.name = name
+
+        if new_password is not None:
+            hashed_password = hash_password(new_password)
+            user.password_hash = hashed_password
+
+        self.session.commit()
+        self.session.refresh(user)
+
+        return user
+
     def delete(
         self,
         user_id: int,
