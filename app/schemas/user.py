@@ -1,15 +1,15 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class UserRegister(BaseModel):
     phone_number: str
     name: str
-    password: str
+    password: str = Field(min_length=8)
 
 
 class UserLogin(BaseModel):
     phone_number: str
-    password: str
+    password: str = Field(min_length=8)
 
 
 class UserRead(BaseModel):
@@ -22,11 +22,12 @@ class UserRead(BaseModel):
 
 class UserUpdate(BaseModel):
     name: str | None = None
-    password: str | None = None
+    current_password: str
+    new_password: str | None = Field(default=None, min_length=8)
 
 
 class UserDelete(BaseModel):
-    password: str
+    password: str = Field(min_length=8)
 
 
 class TokenResponse(BaseModel):
