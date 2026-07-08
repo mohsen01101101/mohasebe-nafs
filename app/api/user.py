@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session
 from app.schemas.user import UserRegister, UserLogin, UserRead, TokenResponse
 from app.services.user import UserService
-from app.db.database import get_session
 from app.core.security import create_access_token
+from app.api.dependencies import get_user_service
 
 
 router = APIRouter(prefix="/users", tags=["Users"])
@@ -12,10 +11,8 @@ router = APIRouter(prefix="/users", tags=["Users"])
 @router.post("/register", response_model=UserRead)
 def register(
     user_data: UserRegister,
-    session: Session = Depends(get_session)
+    service: UserService = Depends(get_user_service)
 ):
-    service = UserService(session)
-
     try:
         user = service.register(
             phone_number=user_data.phone_number,
@@ -35,10 +32,8 @@ def register(
 @router.post("/login", response_model=TokenResponse)
 def login(
     user_data: UserLogin,
-    session: Session = Depends(get_session)
+    service: UserService = Depends(get_user_service)
 ):
-    service = UserService(session)
-
     try:
         user = service.login(
             phone_number=user_data.phone_number,
