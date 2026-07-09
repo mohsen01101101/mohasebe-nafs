@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session
 from app.db.database import get_session
 from app.services.user import UserService
+from app.services.list import ListService
 from app.core.security import decode_access_token
 
 
@@ -13,6 +14,12 @@ def get_user_service(
     session: Session = Depends(get_session)
 ):
     return UserService(session)
+
+
+def get_list_service(
+    session: Session = Depends(get_session)
+):
+    return ListService(session)
 
 
 def get_current_user(
