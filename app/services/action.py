@@ -85,10 +85,10 @@ class ActionService:
         user_id: int,
         list_id: int,
         action_id: int,
-        new_title: str,
+        new_title: str | None,
         new_description: str | None,
-        is_done: bool | None,
-        rating: int | None
+        new_is_done: bool | None,
+        new_rating: int | None
     ):
         user_list = self._get_user_list_by_id(
             user_id=user_id,
@@ -103,26 +103,26 @@ class ActionService:
         if not existing or existing.list_id != list_id:
             raise ValueError("Action not found.")
 
-        duplicate = self._get_by_list_id_and_title(list_id, new_title)
+        if new_title is not None:
+            duplicate = self._get_by_list_id_and_title(list_id, new_title)
 
-        if duplicate and duplicate.id != action_id:
-            raise ValueError("The action already exists.")
+            if duplicate and duplicate.id != action_id:
+                raise ValueError("The action already exists.")
 
-        existing.title = new_title
-        existing.description = new_description
+            existing.title = new_title
+
+        if new_description is not None:
+            existing.description = new_description
 
         if existing.tracking_type == TrackingType.CHECKBOX:
-            if is_done is None:
-                raise ValueError("Checkbox is required.")
-
-            existing.is_done = is_done
+            if new_is_done is not None:
+                existing.is_done = new_is_done
         elif existing.tracking_type == TrackingType.RATING:
-            if rating is None:
-                raise ValueError("Rating is required.")
-            elif not 0 <= rating <= 5:
-                raise ValueError("Rating must be between 0 and 5.")
+            if new_rating is not None:
+                if not 0 <= new_rating <= 5:
+                    raise ValueError("Rating must be between 0 and 5.")
 
-            existing.rating = rating
+                existing.rating = new_rating
 
         self.session.commit()
         self.session.refresh(existing)
