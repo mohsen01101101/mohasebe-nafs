@@ -1,5 +1,6 @@
 from sqlmodel import Session, select
 from app.db.models.action import Action
+from app.db.models.list import List
 from app.domain.enum.tracking_type import TrackingType
 from datetime import datetime
 
@@ -8,7 +9,19 @@ class ActionService:
     def __init__(self, session: Session):
         self.session = session
 
-    def get_all(self, list_id: int):
+    def get_all(
+        self,
+        user_id: int,
+        list_id: int
+    ):
+        user_list = self._get_user_list_by_id(
+            user_id=user_id,
+            list_id=list_id
+        )
+
+        if not user_list:
+            raise ValueError("List not found.")
+
         statement = select(Action).where(Action.list_id == list_id)
         result = self.session.exec(statement)
 
@@ -16,6 +29,7 @@ class ActionService:
 
     def create(
         self,
+        user_id: int,
         list_id: int,
         title: str,
         description: str | None,
@@ -24,6 +38,14 @@ class ActionService:
         rating: int | None,
         started_at: datetime | None
     ):
+        user_list = self._get_user_list_by_id(
+            user_id=user_id,
+            list_id=list_id
+        )
+
+        if not user_list:
+            raise ValueError("List not found.")
+
         duplicate = self._get_by_list_id_and_title(list_id, title)
 
         if duplicate:
@@ -60,6 +82,7 @@ class ActionService:
 
     def update(
         self,
+        user_id: int,
         list_id: int,
         action_id: int,
         new_title: str,
@@ -67,6 +90,14 @@ class ActionService:
         is_done: bool | None,
         rating: int | None
     ):
+        user_list = self._get_user_list_by_id(
+            user_id=user_id,
+            list_id=list_id
+        )
+
+        if not user_list:
+            raise ValueError("List not found.")
+
         existing = self.session.get(Action, action_id)
 
         if not existing or existing.list_id != list_id:
@@ -100,9 +131,18 @@ class ActionService:
 
     def delete(
         self,
+        user_id: int,
         list_id: int,
         action_id: int
     ):
+        user_list = self._get_user_list_by_id(
+            user_id=user_id,
+            list_id=list_id
+        )
+
+        if not user_list:
+            raise ValueError("List not found.")
+
         existing = self.session.get(Action, action_id)
 
         if not existing or existing.list_id != list_id:
@@ -112,6 +152,17 @@ class ActionService:
         self.session.commit()
 
         return None
+
+    def _get_user_list_by_id(
+        self,
+        user_id: int,
+        list_id: int
+    ):
+        statement = select(List).where(
+            List.id == list_id, List.user_id == user_id)
+        result = self.session.exec(statement)
+
+        return result.first()
 
     def _get_by_list_id_and_title(
         self,
