@@ -46,14 +46,14 @@ def get_me(
 
 @router.post("/register", response_model=UserRead)
 def register(
-    user_data: UserRegister,
+    data: UserRegister,
     service: UserService = Depends(get_user_service)
 ):
     try:
         user = service.register(
-            phone_number=user_data.phone_number,
-            name=user_data.name,
-            password=user_data.password,
+            phone_number=data.phone_number,
+            name=data.name,
+            password=data.password,
         )
 
         return user
@@ -67,28 +67,28 @@ def register(
 
 @router.post("/login", response_model=TokenResponse)
 def login(
-    user_data: UserLogin,
+    data: UserLogin,
     service: UserService = Depends(get_user_service)
 ):
     try:
         user = service.login(
-            phone_number=user_data.phone_number,
-            password=user_data.password
+            phone_number=data.phone_number,
+            password=data.password
         )
-
-        assert user.id is not None
-        token = create_access_token(user.id)
-
-        return {
-            "access_token": token,
-            "token_type": "bearer"
-        }
 
     except ValueError as e:
         raise HTTPException(
             status_code=401,
             detail=str(e)
         )
+
+    assert user.id is not None
+    token = create_access_token(user.id)
+
+    return {
+        "access_token": token,
+        "token_type": "bearer"
+    }
 
 
 @router.patch("/me", response_model=UserRead)
@@ -97,8 +97,9 @@ def update_me(
     current_user: User = Depends(get_current_user),
     service: UserService = Depends(get_user_service)
 ):
+    assert current_user.id is not None
+
     try:
-        assert current_user.id is not None
         user = service.update(
             user_id=current_user.id,
             name=data.name,
@@ -121,8 +122,9 @@ def delete_me(
     current_user: User = Depends(get_current_user),
     service: UserService = Depends(get_user_service)
 ):
+    assert current_user.id is not None
+
     try:
-        assert current_user.id is not None
         service.delete(
             user_id=current_user.id,
             password=data.password
