@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
-from app.db.models.action import Action
-from app.db.models.list import List
+from app.db.models.action import ActionModel
+from app.db.models.list import ListModel
 from app.domain.enum.tracking_type import TrackingType
 from datetime import datetime
 
@@ -22,7 +22,7 @@ class ActionService:
         if not user_list:
             raise ValueError("List not found.")
 
-        statement = select(Action).where(Action.list_id == list_id)
+        statement = select(ActionModel).where(ActionModel.list_id == list_id)
         result = self.session.exec(statement)
 
         return result.all()
@@ -72,7 +72,7 @@ class ActionService:
         if started_at is not None:
             data["started_at"] = started_at
 
-        new_action = Action(**data)
+        new_action = ActionModel(**data)
 
         self.session.add(new_action)
         self.session.commit()
@@ -98,7 +98,7 @@ class ActionService:
         if not user_list:
             raise ValueError("List not found.")
 
-        existing = self.session.get(Action, action_id)
+        existing = self.session.get(ActionModel, action_id)
 
         if not existing or existing.list_id != list_id:
             raise ValueError("Action not found.")
@@ -143,7 +143,7 @@ class ActionService:
         if not user_list:
             raise ValueError("List not found.")
 
-        existing = self.session.get(Action, action_id)
+        existing = self.session.get(ActionModel, action_id)
 
         if not existing or existing.list_id != list_id:
             raise ValueError("Action not found.")
@@ -158,8 +158,8 @@ class ActionService:
         user_id: int,
         list_id: int
     ):
-        statement = select(List).where(
-            List.id == list_id, List.user_id == user_id)
+        statement = select(ListModel).where(
+            ListModel.id == list_id, ListModel.user_id == user_id)
         result = self.session.exec(statement)
 
         return result.first()
@@ -169,9 +169,9 @@ class ActionService:
         list_id: int,
         title: str
     ):
-        statement = select(Action).where(
-            Action.list_id == list_id,
-            Action.title == title
+        statement = select(ActionModel).where(
+            ActionModel.list_id == list_id,
+            ActionModel.title == title
         )
         result = self.session.exec(statement)
 

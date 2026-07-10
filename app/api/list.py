@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from app.schemas.list import ListRead, ListCreate, ListUpdate
-from app.db.models.user import User
+from app.db.models.user import UserModel
 from app.api.permissions import require_teacher
 from app.api.dependencies import get_list_service, get_current_user
 from app.services.list import ListService
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/users", tags=["Lists"])
 @router.get("/{user_id}/lists", response_model=list[ListRead])
 def get_lists(
     user_id: int,
-    _: User = Depends(require_teacher),
+    _: UserModel = Depends(require_teacher),
     service: ListService = Depends(get_list_service)
 ):
     lists = service.get_all(user_id)
@@ -22,7 +22,7 @@ def get_lists(
 
 @router.get("/me/lists", response_model=list[ListRead])
 def get_my_lists(
-    current_user: User = Depends(get_current_user),
+    current_user: UserModel = Depends(get_current_user),
     service: ListService = Depends(get_list_service)
 ):
     assert current_user.id is not None
@@ -34,7 +34,7 @@ def get_my_lists(
 @router.post("/me/lists", response_model=ListRead)
 def create_list(
     data: ListCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: UserModel = Depends(get_current_user),
     service: ListService = Depends(get_list_service)
 ):
     assert current_user.id is not None
@@ -59,7 +59,7 @@ def create_list(
 def update_list(
     list_id: int,
     data: ListUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: UserModel = Depends(get_current_user),
     service: ListService = Depends(get_list_service)
 ):
     assert current_user.id is not None
@@ -83,7 +83,7 @@ def update_list(
 @router.delete("/me/{list_id}", status_code=204)
 def delete_list(
     list_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: UserModel = Depends(get_current_user),
     service: ListService = Depends(get_list_service)
 ):
     assert current_user.id is not None

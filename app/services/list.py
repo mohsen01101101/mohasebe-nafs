@@ -1,5 +1,5 @@
 from sqlmodel import Session, select
-from app.db.models.list import List
+from app.db.models.list import ListModel
 from datetime import datetime
 
 
@@ -8,7 +8,7 @@ class ListService:
         self.session = session
 
     def get_all(self, user_id: int):
-        statement = select(List).where(List.user_id == user_id)
+        statement = select(ListModel).where(ListModel.user_id == user_id)
         result = self.session.exec(statement)
 
         return result.all()
@@ -32,7 +32,7 @@ class ListService:
         if created_at is not None:
             data["created_at"] = created_at
 
-        new_list = List(**data)
+        new_list = ListModel(**data)
 
         self.session.add(new_list)
         self.session.commit()
@@ -46,7 +46,7 @@ class ListService:
         list_id: int,
         new_title: str
     ):
-        existing = self.session.get(List, list_id)
+        existing = self.session.get(ListModel, list_id)
 
         if not existing or existing.user_id != user_id:
             raise ValueError("List not found.")
@@ -68,7 +68,7 @@ class ListService:
         user_id: int,
         list_id: int,
     ):
-        existing = self.session.get(List, list_id)
+        existing = self.session.get(ListModel, list_id)
 
         if not existing or existing.user_id != user_id:
             raise ValueError("List not found.")
@@ -83,9 +83,9 @@ class ListService:
         user_id: int,
         title: str
     ):
-        statement = select(List).where(
-            List.user_id == user_id,
-            List.title == title
+        statement = select(ListModel).where(
+            ListModel.user_id == user_id,
+            ListModel.title == title
         )
         result = self.session.exec(statement)
 

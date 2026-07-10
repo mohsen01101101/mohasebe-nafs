@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
 from app.domain.enum.role import Role
-from app.db.models.user import User
+from app.db.models.user import UserModel
 from app.core.security import hash_password, verify_password
 from app.domain.enum.role import Role
 
@@ -10,13 +10,13 @@ class UserService:
         self.session = session
 
     def get_all(self, role: Role = Role.STUDENT):
-        statement = select(User).where(User.role == role)
+        statement = select(UserModel).where(UserModel.role == role)
         result = self.session.exec(statement)
 
         return result.all()
 
     def get_by_id(self, user_id: int):
-        user = self.session.get(User, user_id)
+        user = self.session.get(UserModel, user_id)
 
         if not user:
             raise ValueError("User not found.")
@@ -35,7 +35,7 @@ class UserService:
 
         hashed_password = hash_password(password)
 
-        user = User(
+        user = UserModel(
             phone_number=phone_number,
             name=name,
             password_hash=hashed_password,
@@ -70,7 +70,7 @@ class UserService:
         current_password: str,
         new_password: str | None,
     ):
-        user = self.session.get(User, user_id)
+        user = self.session.get(UserModel, user_id)
 
         if not user:
             raise ValueError("User not found.")
@@ -95,7 +95,7 @@ class UserService:
         user_id: int,
         password: str
     ):
-        user = self.session.get(User, user_id)
+        user = self.session.get(UserModel, user_id)
 
         if not user:
             raise ValueError("User not found.")
@@ -109,7 +109,8 @@ class UserService:
         return None
 
     def _get_by_phone_number(self, phone_number: str):
-        statement = select(User).where(User.phone_number == phone_number)
+        statement = select(UserModel).where(
+            UserModel.phone_number == phone_number)
         result = self.session.exec(statement)
 
         return result.first()

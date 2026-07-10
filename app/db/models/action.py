@@ -4,7 +4,9 @@ from datetime import datetime
 from app.core.constants import IRAN_TZ
 
 
-class Action(SQLModel, table=True):
+class ActionModel(SQLModel, table=True):
+    __tablename__ = "action"  # type: ignore[assignment]
+
     id: int | None = Field(default=None, primary_key=True)
     list_id: int = Field(foreign_key="list.id", ondelete="CASCADE")
     title: str = Field(nullable=False)

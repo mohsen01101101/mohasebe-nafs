@@ -3,7 +3,9 @@ from datetime import datetime
 from app.core.constants import IRAN_TZ
 
 
-class List(SQLModel, table=True):
+class ListModel(SQLModel, table=True):
+    __tablename__ = "list"  # type: ignore[assignment]
+
     id: int | None = Field(default=None, primary_key=True)
     user_id: int = Field(foreign_key="user.id", ondelete="CASCADE")
     title: str = Field(nullable=False)

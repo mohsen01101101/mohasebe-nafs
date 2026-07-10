@@ -3,7 +3,7 @@ from app.schemas.user import UserRegister, UserLogin, UserRead, UserUpdate, User
 from app.services.user import UserService
 from app.core.security import create_access_token
 from app.api.dependencies import get_user_service, get_current_user
-from app.db.models.user import User
+from app.db.models.user import UserModel
 from app.api.permissions import require_teacher
 
 
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/users", tags=["Users"])
 
 @router.get("/", response_model=list[UserRead])
 def get_users(
-    _: User = Depends(require_teacher),
+    _: UserModel = Depends(require_teacher),
     service: UserService = Depends(get_user_service)
 ):
     users = service.get_all()
@@ -23,7 +23,7 @@ def get_users(
 @router.get("/{user_id}", response_model=UserRead)
 def get_user_by_id(
     user_id: int,
-    _: User = Depends(require_teacher),
+    _: UserModel = Depends(require_teacher),
     service: UserService = Depends(get_user_service)
 ):
     try:
@@ -39,7 +39,7 @@ def get_user_by_id(
 
 @router.get("/me", response_model=UserRead)
 def get_me(
-    current_user: User = Depends(get_current_user),
+    current_user: UserModel = Depends(get_current_user),
 ):
     return current_user
 
@@ -94,7 +94,7 @@ def login(
 @router.patch("/me", response_model=UserRead)
 def update_me(
     data: UserUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: UserModel = Depends(get_current_user),
     service: UserService = Depends(get_user_service)
 ):
     assert current_user.id is not None
@@ -119,7 +119,7 @@ def update_me(
 @router.delete("/me", status_code=204)
 def delete_me(
     data: UserDelete,
-    current_user: User = Depends(get_current_user),
+    current_user: UserModel = Depends(get_current_user),
     service: UserService = Depends(get_user_service)
 ):
     assert current_user.id is not None
