@@ -3,7 +3,7 @@ from app.domain.enum.role import Role
 
 
 class UserModel(SQLModel, table=True):
-    __tablename__ = "user"  # type: ignore[assignment]
+    __tablename__ = "user"   # pyright: ignore[reportAssignmentType]
 
     id: int | None = Field(default=None, primary_key=True)
     phone_number: str = Field(nullable=False, unique=True)

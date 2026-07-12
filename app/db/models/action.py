@@ -5,7 +5,7 @@ from app.core.constants import IRAN_TZ
 
 
 class ActionModel(SQLModel, table=True):
-    __tablename__ = "action"  # type: ignore[assignment]
+    __tablename__ = "action"   # pyright: ignore[reportAssignmentType]
 
     id: int | None = Field(default=None, primary_key=True)
     list_id: int = Field(foreign_key="list.id", ondelete="CASCADE")
