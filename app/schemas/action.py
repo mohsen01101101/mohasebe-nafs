@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, model_validator, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict
 from app.domain.enum.tracking_type import TrackingType
 from datetime import datetime
 
