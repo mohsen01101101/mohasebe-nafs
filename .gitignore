@@ -75,6 +75,7 @@ Thumbs.db
 node_modules/
 /static/dist/
 /static/assets/dist/
+/static/tailwind-css/output.css
 *.min.js
 *.min.css
 
