@@ -28,4 +28,4 @@ class ActionUpdate(BaseModel):
     title: str | None = None
     description: str | None = None
     is_done: bool | None = None
-    rating: int | None = None
+    rating: int | None = Field(default=None, ge=0, le=5)
