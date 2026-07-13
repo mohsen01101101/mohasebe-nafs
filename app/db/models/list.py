@@ -13,5 +13,9 @@ class ListModel(SQLModel, table=True):
         default_factory=lambda: datetime.now(IRAN_TZ))
 
     __table_args__ = (
-        UniqueConstraint("user_id", "title"),
+        UniqueConstraint(
+            "user_id",
+            "title",
+            name="unique_list_title_per_user"
+        ),
     )

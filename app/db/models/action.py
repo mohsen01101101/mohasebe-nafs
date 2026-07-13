@@ -16,7 +16,11 @@ class ActionModel(SQLModel, table=True):
         default_factory=lambda: datetime.now(IRAN_TZ))
 
     __table_args__ = (
-        UniqueConstraint("list_id", "title"),
+        UniqueConstraint(
+            "list_id",
+            "title",
+            name="unique_action_title_per_list"
+        ),
     )
 
 
@@ -32,5 +36,9 @@ class ActionStateModel(SQLModel, table=True):
     )
 
     __table_args__ = (
-        UniqueConstraint("action_id", "date"),
+        UniqueConstraint(
+            "action_id",
+            "date",
+            name="unique_action_state_per_day"
+        ),
     )
