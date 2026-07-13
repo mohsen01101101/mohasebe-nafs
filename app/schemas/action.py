@@ -23,7 +23,7 @@ class ActionRead(BaseModel):
 class ActionStateRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: int
+    id: int | None = None
     action_id: int
     is_done: bool | None = None
     rating: int | None = None
