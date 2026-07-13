@@ -4,7 +4,7 @@ from app.core.constants import IRAN_TZ
 
 
 class ListModel(SQLModel, table=True):
-    __tablename__ = "list"   # pyright: ignore[reportAssignmentType]
+    __tablename__ = "list"  # pyright: ignore[reportAssignmentType]
 
     id: int | None = Field(default=None, primary_key=True)
     user_id: int = Field(foreign_key="user.id", ondelete="CASCADE")

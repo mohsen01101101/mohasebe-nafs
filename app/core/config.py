@@ -24,4 +24,4 @@ class Settings(BaseSettings):
         return f"{self.api_url}{self.api_prefix}"
 
 
-settings = Settings()   # pyright: ignore[reportCallIssue]
+settings = Settings()  # pyright: ignore[reportCallIssue]
