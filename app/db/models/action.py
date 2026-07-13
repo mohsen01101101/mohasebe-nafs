@@ -38,7 +38,7 @@ class ActionStateModel(SQLModel, table=True):
     __table_args__ = (
         UniqueConstraint(
             "action_id",
-            "date",
+            "day",
             name="unique_action_state_per_day"
         ),
     )
