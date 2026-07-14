@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.schemas.action import ActionRead, ActionCreate, ActionUpdate
+from app.schemas.action import ActionRead, ActionCreate, ActionUpdate, ActionStateRead, ActionStateUpdate
 from app.api.permissions import require_teacher
-from app.api.dependencies import get_action_service, get_current_user
+from app.api.dependencies import get_action_service, get_action_state_service, get_current_user
 from app.db.models.user import UserModel
-from app.services.action import ActionService
+from app.services.action import ActionService, ActionStateService
+from datetime import date
 
 
 router = APIRouter(prefix="/users", tags=["Actions"])
@@ -24,6 +25,25 @@ def get_actions(
     return actions
 
 
+@router.get("/{user_id}/lists/{list_id}/actions/{action_id}/state", response_model=ActionStateRead)
+def get_action_state_by_day(
+    user_id: int,
+    list_id: int,
+    action_id: int,
+    day: date | None = None,
+    _: UserModel = Depends(require_teacher),
+    service: ActionStateService = Depends(get_action_state_service)
+):
+    action_state = service.get_by_day(
+        user_id=user_id,
+        list_id=list_id,
+        action_id=action_id,
+        day=day
+    )
+
+    return action_state
+
+
 @router.get("/me/lists/{list_id}/actions", response_model=list[ActionRead])
 def get_my_actions(
     list_id: int,
@@ -37,6 +57,25 @@ def get_my_actions(
     )
 
     return actions
+
+
+@router.get("/me/lists/{list_id}/actions/{action_id}/state", response_model=ActionStateRead)
+def get_my_action_state_by_day(
+    list_id: int,
+    action_id: int,
+    day: date | None = None,
+    current_user: UserModel = Depends(get_current_user),
+    service: ActionStateService = Depends(get_action_state_service)
+):
+    assert current_user.id is not None
+    action_state = service.get_by_day(
+        user_id=current_user.id,
+        list_id=list_id,
+        action_id=action_id,
+        day=day
+    )
+
+    return action_state
 
 
 @router.post("/me/lists/{list_id}/actions", response_model=ActionRead)
@@ -55,8 +94,6 @@ def create_action(
             title=data.title,
             description=data.description,
             tracking_type=data.tracking_type,
-            is_done=data.is_done,
-            rating=data.rating,
             started_at=data.started_at
         )
 
@@ -85,12 +122,39 @@ def update_action(
             list_id=list_id,
             action_id=action_id,
             new_title=data.title,
-            new_description=data.description,
-            new_is_done=data.is_done,
-            new_rating=data.rating
+            new_description=data.description
         )
 
         return action
+
+    except ValueError as e:
+        raise HTTPException(
+            status_code=400,
+            detail=str(e)
+        )
+
+
+@router.patch("/me/lists/{list_id}/actions/{action_id}/state", response_model=ActionStateRead)
+def update_action_state_by_day(
+    data: ActionStateUpdate,
+    list_id: int,
+    action_id: int,
+    current_user: UserModel = Depends(get_current_user),
+    service: ActionStateService = Depends(get_action_state_service)
+):
+    assert current_user.id is not None
+
+    try:
+        action_state = service.update(
+            user_id=current_user.id,
+            list_id=list_id,
+            action_id=action_id,
+            is_done=data.is_done,
+            rating=data.rating,
+            day=data.day
+        )
+
+        return action_state
 
     except ValueError as e:
         raise HTTPException(
