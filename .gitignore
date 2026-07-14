@@ -45,6 +45,7 @@ htmlcov/
 *.pem
 *.key
 *.crt
+.sesskey
 secrets/
 
 # Databases
