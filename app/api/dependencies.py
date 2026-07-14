@@ -4,7 +4,7 @@ from sqlmodel import Session
 from app.db.database import get_session
 from app.services.user import UserService
 from app.services.list import ListService
-from app.services.action import ActionService
+from app.services.action import ActionService, ActionStateService
 from app.core.security import decode_access_token
 
 
@@ -27,6 +27,12 @@ def get_action_service(
     session: Session = Depends(get_session)
 ):
     return ActionService(session)
+
+
+def get_action_state_service(
+    session: Session = Depends(get_session)
+):
+    return ActionStateService(session)
 
 
 def get_current_user(
