@@ -6,9 +6,11 @@ from app.services.user import UserService
 from app.services.list import ListService
 from app.services.action import ActionService, ActionStateService
 from app.core.security import decode_access_token
+from app.core.config import settings
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl=f"/{settings.api_prefix}/auth/login")
 
 
 def get_user_service(
