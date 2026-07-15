@@ -22,12 +22,17 @@ def base_layout(page_content, title="Mohasebe Nafs", show_header_footer=True):
             *(
                 [Header(header())] if show_header_footer else []
             ),
+
             Main(
-                page_content
+                page_content,
+                cls="flex-1"
             ),
+
             *(
                 [Footer(footer())] if show_header_footer else []
-            )
+            ),
+
+            cls="min-h-dvh flex flex-col items-center"
         ),
 
         lang="fa",
