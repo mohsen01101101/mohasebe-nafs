@@ -31,7 +31,8 @@ def base_layout(page_content, title="Mohasebe Nafs", show_header_footer=True):
         ),
 
         lang="fa",
-        dir="rtl"
+        dir="rtl",
+        data_theme="emerald"
     )
 
 
