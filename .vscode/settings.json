@@ -1,0 +1,8 @@
+{
+    "tailwindCSS.includeLanguages": {
+        "python": "html"
+    },
+    "tailwindCSS.experimental.classRegex": [
+        "cls\\s*=\\s*[\"']([^\"']*)[\"']"
+    ]
+}

@@ -64,7 +64,8 @@ tmp/
 *.pid.lock
 
 # IDE & OS
-.vscode/
+.vscode/*
+!.vscode/settings.json
 .idea/
 *.swp
 *.swo
