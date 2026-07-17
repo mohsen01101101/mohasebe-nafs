@@ -1,5 +1,6 @@
 from fasthtml.common import Redirect, Beforeware
 from starlette.requests import Request
+from app.web.middleware.current_user import load_current_user
 
 
 PUBLIC_PATHS = [
@@ -22,6 +23,10 @@ def auth_before(req: Request, session):
         return
 
     if is_authenticated:
+        load_current_user(
+            req=req,
+            session=session
+        )
         return
 
     return Redirect("/login")
