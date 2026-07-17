@@ -9,17 +9,6 @@ from app.services.list import ListService
 router = APIRouter(prefix="/users", tags=["Lists"])
 
 
-@router.get("/{user_id}/lists", response_model=list[ListRead])
-def get_lists(
-    user_id: int,
-    _: UserModel = Depends(require_teacher),
-    service: ListService = Depends(get_list_service)
-):
-    lists = service.get_all(user_id)
-
-    return lists
-
-
 @router.get("/me/lists", response_model=list[ListRead])
 def get_my_lists(
     current_user: UserModel = Depends(get_current_user),
@@ -99,3 +88,14 @@ def delete_list(
             status_code=404,
             detail=str(e)
         )
+
+
+@router.get("/{user_id}/lists", response_model=list[ListRead])
+def get_lists(
+    user_id: int,
+    _: UserModel = Depends(require_teacher),
+    service: ListService = Depends(get_list_service)
+):
+    lists = service.get_all(user_id)
+
+    return lists

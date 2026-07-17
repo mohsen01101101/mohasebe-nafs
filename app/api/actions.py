@@ -10,40 +10,6 @@ from datetime import date
 router = APIRouter(prefix="/users", tags=["Actions"])
 
 
-@router.get("/{user_id}/lists/{list_id}/actions", response_model=list[ActionRead])
-def get_actions(
-    user_id: int,
-    list_id: int,
-    _: UserModel = Depends(require_teacher),
-    service: ActionService = Depends(get_action_service)
-):
-    actions = service.get_all(
-        user_id=user_id,
-        list_id=list_id
-    )
-
-    return actions
-
-
-@router.get("/{user_id}/lists/{list_id}/actions/{action_id}/state", response_model=ActionStateRead)
-def get_action_state_by_day(
-    user_id: int,
-    list_id: int,
-    action_id: int,
-    day: date | None = None,
-    _: UserModel = Depends(require_teacher),
-    service: ActionStateService = Depends(get_action_state_service)
-):
-    action_state = service.get_by_day(
-        user_id=user_id,
-        list_id=list_id,
-        action_id=action_id,
-        day=day
-    )
-
-    return action_state
-
-
 @router.get("/me/lists/{list_id}/actions", response_model=list[ActionRead])
 def get_my_actions(
     list_id: int,
@@ -184,3 +150,37 @@ def delete_action(
             status_code=404,
             detail=str(e)
         )
+
+
+@router.get("/{user_id}/lists/{list_id}/actions", response_model=list[ActionRead])
+def get_actions(
+    user_id: int,
+    list_id: int,
+    _: UserModel = Depends(require_teacher),
+    service: ActionService = Depends(get_action_service)
+):
+    actions = service.get_all(
+        user_id=user_id,
+        list_id=list_id
+    )
+
+    return actions
+
+
+@router.get("/{user_id}/lists/{list_id}/actions/{action_id}/state", response_model=ActionStateRead)
+def get_action_state_by_day(
+    user_id: int,
+    list_id: int,
+    action_id: int,
+    day: date | None = None,
+    _: UserModel = Depends(require_teacher),
+    service: ActionStateService = Depends(get_action_state_service)
+):
+    action_state = service.get_by_day(
+        user_id=user_id,
+        list_id=list_id,
+        action_id=action_id,
+        day=day
+    )
+
+    return action_state

@@ -19,23 +19,6 @@ def get_users(
     return users
 
 
-@router.get("/{user_id}", response_model=UserRead)
-def get_user_by_id(
-    user_id: int,
-    _: UserModel = Depends(require_teacher),
-    service: UserService = Depends(get_user_service)
-):
-    try:
-        user = service.get_by_id(user_id)
-
-        return user
-    except ValueError as e:
-        raise HTTPException(
-            status_code=404,
-            detail=str(e)
-        )
-
-
 @router.get("/me", response_model=UserRead)
 def get_me(
     current_user: UserModel = Depends(get_current_user),
@@ -84,5 +67,22 @@ def delete_me(
     except ValueError as e:
         raise HTTPException(
             status_code=400,
+            detail=str(e)
+        )
+
+
+@router.get("/{user_id}", response_model=UserRead)
+def get_user_by_id(
+    user_id: int,
+    _: UserModel = Depends(require_teacher),
+    service: UserService = Depends(get_user_service)
+):
+    try:
+        user = service.get_by_id(user_id)
+
+        return user
+    except ValueError as e:
+        raise HTTPException(
+            status_code=404,
             detail=str(e)
         )
