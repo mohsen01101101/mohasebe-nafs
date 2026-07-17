@@ -4,7 +4,7 @@ from app.web.layouts.base import auth_layout
 
 
 def login():
-    page_content = Div(
+    page_content = Section(
         Form(
             Label(
                 Span(
