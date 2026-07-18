@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.schemas.user import UserRegister, UserLogin, UserRead, TokenResponse
-from app.services.user import UserService
+from app.schemas.auth import AuthRegister, AuthLogin, TokenResponse
+from app.schemas.user import UserRead
+from app.services.auth import AuthService
 from app.core.security import create_access_token
-from app.api.dependencies import get_user_service
+from app.api.dependencies import get_auth_service
 
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -10,8 +11,8 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 
 @router.post("/register", response_model=UserRead)
 def register(
-    data: UserRegister,
-    service: UserService = Depends(get_user_service)
+    data: AuthRegister,
+    service: AuthService = Depends(get_auth_service)
 ):
     try:
         user = service.register(
@@ -31,8 +32,8 @@ def register(
 
 @router.post("/login", response_model=TokenResponse)
 def login(
-    data: UserLogin,
-    service: UserService = Depends(get_user_service)
+    data: AuthLogin,
+    service: AuthService = Depends(get_auth_service)
 ):
     try:
         user = service.login(
