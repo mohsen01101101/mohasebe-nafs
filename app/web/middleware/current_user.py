@@ -1,6 +1,5 @@
-from fasthtml.common import Redirect
+from fasthtml.common import Redirect, Request
 from app.web.client.users import get_me
-from starlette.requests import Request
 from httpx2 import HTTPStatusError
 
 

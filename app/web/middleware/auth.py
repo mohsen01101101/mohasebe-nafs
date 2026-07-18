@@ -1,5 +1,4 @@
-from fasthtml.common import Redirect, Beforeware
-from starlette.requests import Request
+from fasthtml.common import Redirect, Beforeware, Request
 from app.web.middleware.current_user import load_current_user
 
 
