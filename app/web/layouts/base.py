@@ -3,7 +3,7 @@ from app.web.components.header import header
 from app.web.components.footer import footer
 
 
-def base_layout(page_content, title="Mohasebe Nafs", show_header_footer=True):
+def base_layout(req: Request, page_content, title="Mohasebe Nafs", show_header_footer=True):
     return Html(
         Head(
             Meta(charset="UTF-8"),
@@ -20,7 +20,13 @@ def base_layout(page_content, title="Mohasebe Nafs", show_header_footer=True):
 
         Body(
             *(
-                [Header(header())] if show_header_footer else []
+                [
+                    Header(
+                        header(req)
+                    )
+                ]
+                if show_header_footer
+                else []
             ),
 
             Main(
@@ -29,11 +35,10 @@ def base_layout(page_content, title="Mohasebe Nafs", show_header_footer=True):
             ),
 
             Footer(
-                footer(),
-                cls="mb-4"
+                footer()
             ),
 
-            cls="h-dvh flex flex-col items-center"
+            cls="flex flex-col max-w-2xl h-dvh mx-auto p-4"
         ),
 
         lang="fa",
@@ -42,16 +47,18 @@ def base_layout(page_content, title="Mohasebe Nafs", show_header_footer=True):
     )
 
 
-def auth_layout(page_content, title="Login"):
+def auth_layout(req: Request, page_content, title="Login"):
     return base_layout(
+        req=req,
         page_content=page_content,
         title=title,
         show_header_footer=False
     )
 
 
-def app_layout(page_content, title="Mohasebe Nafs"):
+def app_layout(req: Request, page_content, title="Mohasebe Nafs"):
     return base_layout(
+        req=req,
         page_content=page_content,
         title=title,
         show_header_footer=True

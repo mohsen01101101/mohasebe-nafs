@@ -3,7 +3,7 @@ from fasthtml.svg import *
 from app.web.layouts.base import auth_layout
 
 
-def login():
+def login(req: Request):
     page_content = Section(
         Form(
             Label(
@@ -71,6 +71,7 @@ def login():
     )
 
     return auth_layout(
+        req=req,
         page_content=page_content,
         title="صفحه ورود"
     )

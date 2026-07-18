@@ -1,4 +1,4 @@
-from fasthtml.common import fast_app, serve, Redirect
+from fasthtml.common import fast_app, serve, Redirect, Request
 from app.api.main import api_app
 from app.core.config import settings
 from app.web.middleware.auth import before
@@ -22,8 +22,8 @@ app.mount(
 
 
 @rt("/login")
-def get():  # pyright: ignore[reportRedeclaration]
-    return login()
+def get(req: Request):  # pyright: ignore[reportRedeclaration]
+    return login(req)
 
 
 @rt("/login")
@@ -43,8 +43,8 @@ def post(
 
 
 @rt("/")
-def get():
-    return home()
+def get(req: Request):
+    return home(req)
 
 
 serve()
