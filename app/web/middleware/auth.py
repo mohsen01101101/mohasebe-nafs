@@ -23,10 +23,14 @@ def auth_before(req: Request, session):
         return
 
     if is_authenticated:
-        load_current_user(
+        response = load_current_user(
             req=req,
             session=session
         )
+
+        if response:
+            return response
+
         return
 
     return Redirect("/login")
