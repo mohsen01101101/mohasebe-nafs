@@ -11,10 +11,16 @@ def base_layout(req: Request, page_content, title="Mohasebe Nafs", show_header_f
                 name="viewport",
                 content="width=device-width, initial-scale=1.0"
             ),
+
             Link(
                 rel="stylesheet",
                 href="/tailwind-css/output.css"
             ),
+            Script(
+                src="/static/js/bundle.js",
+                type="module"
+            ),
+
             Title(title)
         ),
 

@@ -78,6 +78,7 @@ node_modules/
 /static/dist/
 /static/assets/dist/
 /static/tailwind-css/output.css
+/static/js/bundle.js
 *.min.js
 *.min.css
 
