@@ -2,6 +2,7 @@ from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session
 from app.db.database import get_session
+from app.services.auth import AuthService
 from app.services.user import UserService
 from app.services.list import ListService
 from app.services.action import ActionService, ActionStateService
@@ -11,6 +12,12 @@ from app.core.config import settings
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl=f"/{settings.api_prefix}/auth/login")
+
+
+def get_auth_service(
+    session: Session = Depends(get_session)
+):
+    return AuthService(session)
 
 
 def get_user_service(
