@@ -15,11 +15,11 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev:css": "tailwindcss -i ./static/tailwind-css/input.css -o ./static/tailwind-css/output.css --watch",
+    "dev:css": "tailwindcss -i ./src/css/input.css -o ./static/css/output.css --watch",
     "dev:js": "vite build --watch",
     "dev": "concurrently \"npm run dev:css\" \"npm run dev:js\"",
 
-    "build:css": "tailwindcss -i ./static/tailwind-css/input.css -o ./static/tailwind-css/output.min.css --minify",
+    "build:css": "tailwindcss -i ./src/css/input.css -o ./static/css/output.min.css --minify",
     "build:js": "vite build",
     "build": "npm run build:css && npm run build:js"
   },
