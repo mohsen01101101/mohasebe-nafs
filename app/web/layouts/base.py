@@ -25,14 +25,15 @@ def base_layout(page_content, title="Mohasebe Nafs", show_header_footer=True):
 
             Main(
                 page_content,
-                cls="flex-1"
+                cls="flex-1 min-h-0"
             ),
 
-            *(
-                [Footer(footer())] if show_header_footer else []
+            Footer(
+                footer(),
+                cls="mb-4"
             ),
 
-            cls="min-h-dvh flex flex-col items-center"
+            cls="h-dvh flex flex-col items-center"
         ),
 
         lang="fa",
