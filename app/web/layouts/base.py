@@ -14,7 +14,7 @@ def base_layout(req: Request, page_content, title="Mohasebe Nafs", show_header_f
 
             Link(
                 rel="stylesheet",
-                href="/tailwind-css/output.css"
+                href="/css/output.css"
             ),
             Script(
                 src="/js/bundle.js",
