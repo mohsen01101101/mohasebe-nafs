@@ -7,23 +7,6 @@ from datetime import datetime
 BASE_URL = f"{settings.api_base_url}/users"
 
 
-def get_actions(
-    token: str,
-    user_id: int,
-    list_id: int
-):
-    response = client.get(
-        url=f"{BASE_URL}/{user_id}/lists/{list_id}/actions",
-        headers={
-            "Authorization": f"Bearer {token}"
-        }
-    )
-
-    response.raise_for_status()
-
-    return response.json()
-
-
 def get_my_actions(token: str, list_id: int):
     response = client.get(
         url=f"{BASE_URL}/me/lists/{list_id}/actions",
@@ -135,3 +118,20 @@ def delete_action(
     )
 
     response.raise_for_status()
+
+
+def get_actions(
+    token: str,
+    user_id: int,
+    list_id: int
+):
+    response = client.get(
+        url=f"{BASE_URL}/{user_id}/lists/{list_id}/actions",
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    response.raise_for_status()
+
+    return response.json()

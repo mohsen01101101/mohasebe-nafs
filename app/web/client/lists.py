@@ -6,19 +6,6 @@ from datetime import datetime
 BASE_URL = f"{settings.api_base_url}/users"
 
 
-def get_lists(token: str, user_id: int):
-    response = client.get(
-        url=f"{BASE_URL}/{user_id}/lists",
-        headers={
-            "Authorization": f"Bearer {token}"
-        }
-    )
-
-    response.raise_for_status()
-
-    return response.json()
-
-
 def get_my_lists(token: str):
     response = client.get(
         url=f"{BASE_URL}/me/lists",
@@ -63,7 +50,7 @@ def update_list(
         title: str
 ):
     response = client.patch(
-        url=f"{BASE_URL}/me/{list_id}",
+        url=f"{BASE_URL}/me/lists/{list_id}",
         headers={
             "Authorization": f"Bearer {token}"
         },
@@ -79,10 +66,23 @@ def update_list(
 
 def delete_list(token: str, list_id: int):
     response = client.delete(
-        url=f"{BASE_URL}/me/{list_id}",
+        url=f"{BASE_URL}/me/lists/{list_id}",
         headers={
             "Authorization": f"Bearer {token}"
         },
     )
 
     response.raise_for_status()
+
+
+def get_lists(token: str, user_id: int):
+    response = client.get(
+        url=f"{BASE_URL}/{user_id}/lists",
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    response.raise_for_status()
+
+    return response.json()

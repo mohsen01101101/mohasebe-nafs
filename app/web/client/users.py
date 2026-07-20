@@ -18,19 +18,6 @@ def get_users(token: str):
     return response.json()
 
 
-def get_user_by_id(token: str, user_id: int):
-    response = client.get(
-        url=f"{BASE_URL}/{user_id}",
-        headers={
-            "Authorization": f"Bearer {token}"
-        }
-    )
-
-    response.raise_for_status()
-
-    return response.json()
-
-
 def get_me(token: str):
     response = client.get(
         url=f"{BASE_URL}/me",
@@ -86,3 +73,16 @@ def delete_me(token: str, password: str):
     )
 
     response.raise_for_status()
+
+
+def get_user_by_id(token: str, user_id: int):
+    response = client.get(
+        url=f"{BASE_URL}/{user_id}",
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    response.raise_for_status()
+
+    return response.json()
