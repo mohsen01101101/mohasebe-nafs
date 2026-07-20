@@ -1,6 +1,4 @@
-import jdatetime
 from fasthtml.common import *
-from datetime import datetime
 from app.core.shamsi_date import jalali_today
 
 
