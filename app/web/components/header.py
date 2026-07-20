@@ -1,21 +1,27 @@
 from fasthtml.common import *
 from app.core.utils.shamsi_date import jalali_today_text
+from app.core.utils.persian_digits import to_persian_digits
 
 
 def header(req: Request):
+    user = req.state.user
+
+    name = to_persian_digits(user["name"])
+    phone_number = to_persian_digits(user["phone_number"])
+
     return (
         Div(
             Div(
                 P(
                     Span(
-                        req.state.user["name"],
+                        name,
                         cls="font-bold"
                     ),
                     " عزیز، خوش آمدی"
                 ),
 
                 Span(
-                    req.state.user["phone_number"],
+                    phone_number,
                     cls="text-sm opacity-50"
                 ),
             ),
