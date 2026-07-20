@@ -1,11 +1,11 @@
 from fasthtml.common import *
-from app.core.shamsi_date import jalali_today
+from app.core.shamsi_date import jalali_today_numeric
 
 
 def datepicker(
     locale: str = "fa",
     show_holidays: bool = True,
-    placeholder: str = jalali_today()
+    placeholder: str = jalali_today_numeric()
 ):
     datepicker_element = ft(
         "doran-datepicker",
