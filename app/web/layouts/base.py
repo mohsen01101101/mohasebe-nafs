@@ -14,10 +14,10 @@ def base_layout(req: Request, page_content, title="Mohasebe Nafs", show_header_f
 
             Link(
                 rel="stylesheet",
-                href="/css/output.css"
+                href="/build/css/bundle.css"
             ),
             Script(
-                src="/js/bundle.js",
+                src="/build/js/bundle.js",
                 type="module"
             ),
 
