@@ -12,8 +12,8 @@ class ActionModel(SQLModel, table=True):
     title: str = Field(nullable=False)
     description: str | None = Field(default=None)
     tracking_type: TrackingType = Field(nullable=False)
-    started_at: datetime = Field(
-        default_factory=lambda: datetime.now(IRAN_TZ))
+    started_date: datetime = Field(
+        default_factory=lambda: datetime.now(IRAN_TZ).date())
 
     __table_args__ = (
         UniqueConstraint(
