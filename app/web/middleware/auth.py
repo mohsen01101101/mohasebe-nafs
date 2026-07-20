@@ -4,7 +4,7 @@ from app.web.middleware.current_user import load_current_user
 
 PUBLIC_PATHS = [
     "/fonts",
-    "/tailwind-css"
+    "/build"
 ]
 
 
