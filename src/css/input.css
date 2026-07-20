@@ -46,4 +46,7 @@
 
 body {
   font-family: "Vazirmatn", sans-serif;
+
+  /* Doran - The Persian Calendar */
+  --doran-primary: var(--color-primary);
 }

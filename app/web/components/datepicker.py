@@ -11,7 +11,13 @@ def datepicker(
         "doran-datepicker",
         locale=locale,
         show_holidays=show_holidays,
-        placeholder=placeholder
+        placeholder=placeholder,
+        input_width="100%",
+        dropdown_width="trigger",
+        style=""
+        "--doran-focus-ring: var(--color-primary-content);"
+        "--doran-primary: var(--color-primary);"
+        ""
     )
 
     return datepicker_element

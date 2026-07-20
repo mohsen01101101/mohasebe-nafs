@@ -44,7 +44,7 @@ def base_layout(req: Request, page_content, title="Mohasebe Nafs", show_header_f
                 footer()
             ),
 
-            cls="flex flex-col max-w-2xl h-dvh mx-auto p-4"
+            cls="flex flex-col max-w-lg h-dvh mx-auto p-4"
         ),
 
         lang="fa",
