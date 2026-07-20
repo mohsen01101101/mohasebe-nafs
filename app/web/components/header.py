@@ -1,5 +1,5 @@
 from fasthtml.common import *
-from app.core.shamsi_date import jalali_today_text
+from app.core.utils.shamsi_date import jalali_today_text
 
 
 def header(req: Request):

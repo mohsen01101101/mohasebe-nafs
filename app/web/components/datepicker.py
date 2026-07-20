@@ -1,5 +1,5 @@
 from fasthtml.common import *
-from app.core.shamsi_date import jalali_today_numeric
+from app.core.utils.shamsi_date import jalali_today_numeric
 
 
 def datepicker(
