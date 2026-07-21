@@ -28,7 +28,7 @@ def jalali_today_numeric():
 
 
 def _jalali_today():
-    now = datetime.now(IRAN_TZ)
+    now = datetime.now(IRAN_TZ).date()
 
     today = jdatetime.date.fromgregorian(
         year=now.year,
