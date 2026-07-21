@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Query, Depends, HTTPException
+from datetime import datetime
+from app.core.constants import IRAN_TZ
 from app.schemas.list import ListRead, ListCreate, ListUpdate
 from app.db.models.user import UserModel
 from app.api.permissions import require_teacher
@@ -12,10 +14,16 @@ router = APIRouter(prefix="/users", tags=["Lists"])
 @router.get("/me/lists", response_model=list[ListRead])
 def get_my_lists(
     current_user: UserModel = Depends(get_current_user),
+    selected_date: datetime = Query(
+        default_factory=lambda: datetime.now(IRAN_TZ).date()
+    ),
     service: ListService = Depends(get_list_service)
 ):
     assert current_user.id is not None
-    lists = service.get_all(current_user.id)
+    lists = service.get_all(
+        user_id=current_user.id,
+        selected_date=selected_date
+    )
 
     return lists
 

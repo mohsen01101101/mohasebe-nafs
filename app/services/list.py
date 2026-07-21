@@ -1,14 +1,25 @@
 from sqlmodel import Session, select
 from app.db.models.list import ListModel
-from datetime import datetime
+from datetime import datetime, date
+from app.core.constants import IRAN_TZ
 
 
 class ListService:
     def __init__(self, session: Session):
         self.session = session
 
-    def get_all(self, user_id: int):
-        statement = select(ListModel).where(ListModel.user_id == user_id)
+    def get_all(
+        self,
+        user_id: int,
+        selected_date: date | None = None
+    ):
+        if selected_date is None:
+            selected_date = datetime.now(IRAN_TZ).date()
+
+        statement = select(ListModel).where(
+            ListModel.user_id == user_id,
+            ListModel.created_date <= selected_date
+        )
         result = self.session.exec(statement)
 
         return result.all()
