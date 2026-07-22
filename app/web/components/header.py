@@ -1,6 +1,6 @@
 from fasthtml.common import *
 from app.core.utils.shamsi_date import jalali_today_text
-from app.core.utils.persian_digits import to_persian_digits
+from app.core.utils.digits_converter import to_persian_digits
 
 
 def header(req: Request):
