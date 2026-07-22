@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Query, Depends, HTTPException
-from datetime import datetime
+from datetime import datetime, date
 from app.core.constants import IRAN_TZ
 from app.schemas.list import ListRead, ListCreate, ListUpdate
 from app.db.models.user import UserModel
@@ -14,7 +14,7 @@ router = APIRouter(prefix="/users", tags=["Lists"])
 @router.get("/me/lists", response_model=list[ListRead])
 def get_my_lists(
     current_user: UserModel = Depends(get_current_user),
-    selected_date: datetime = Query(
+    selected_date: date = Query(
         default_factory=lambda: datetime.now(IRAN_TZ).date()
     ),
     service: ListService = Depends(get_list_service)
