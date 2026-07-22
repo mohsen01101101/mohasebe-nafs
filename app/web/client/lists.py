@@ -1,14 +1,23 @@
 from app.core.config import settings
 from app.web.client.http import client
-from datetime import datetime
+from datetime import datetime, date
 
 
 BASE_URL = f"{settings.api_base_url}/users"
 
 
-def get_my_lists(token: str):
+def get_my_lists(
+        token: str,
+        selected_date: date | None = None
+):
+    params = {}
+
+    if selected_date is not None:
+        params["selected_date"] = selected_date.isoformat()
+
     response = client.get(
         url=f"{BASE_URL}/me/lists",
+        params=params,
         headers={
             "Authorization": f"Bearer {token}"
         }
