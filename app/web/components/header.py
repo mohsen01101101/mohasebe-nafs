@@ -1,5 +1,5 @@
 from fasthtml.common import *
-from app.core.utils.shamsi_date import jalali_today_text
+from app.core.utils.date_converter import jalali_today_text
 from app.core.utils.digits_converter import to_persian_digits
 
 
