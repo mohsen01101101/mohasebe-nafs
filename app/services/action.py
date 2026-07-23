@@ -14,7 +14,8 @@ class ActionService:
     def get_all(
         self,
         user_id: int,
-        list_id: int
+        list_id: int,
+        selected_date: date | None = None
     ):
         user_list = self._get_user_list_by_id(
             user_id=user_id,
@@ -24,8 +25,12 @@ class ActionService:
         if not user_list:
             raise ValueError("List not found.")
 
+        if selected_date is None:
+            selected_date = datetime.now(IRAN_TZ).date()
+
         statement = select(ActionModel).where(
-            ActionModel.list_id == list_id
+            ActionModel.list_id == list_id,
+            ActionModel.started_date <= selected_date
         )
         result = self.session.exec(statement)
 

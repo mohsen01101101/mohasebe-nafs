@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Query, Depends, HTTPException
+from datetime import datetime, date
+from app.core.constants import IRAN_TZ
 from app.schemas.action import ActionRead, ActionCreate, ActionUpdate, ActionStateRead, ActionStateUpdate
 from app.api.permissions import require_teacher
 from app.api.dependencies import get_action_service, get_action_state_service, get_current_user
 from app.db.models.user import UserModel
 from app.services.action import ActionService, ActionStateService
-from datetime import date
 
 
 router = APIRouter(prefix="/users", tags=["Actions"])
@@ -14,12 +15,16 @@ router = APIRouter(prefix="/users", tags=["Actions"])
 def get_my_actions(
     list_id: int,
     current_user: UserModel = Depends(get_current_user),
+    selected_date: date = Query(
+        default_factory=lambda: datetime.now(IRAN_TZ).date()
+    ),
     service: ActionService = Depends(get_action_service)
 ):
     assert current_user.id is not None
     actions = service.get_all(
         user_id=current_user.id,
-        list_id=list_id
+        list_id=list_id,
+        selected_date=selected_date
     )
 
     return actions
