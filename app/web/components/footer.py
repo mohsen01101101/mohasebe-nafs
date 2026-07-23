@@ -14,6 +14,6 @@ def footer():
                 cls="text-sm"
             ),
 
-            cls="flex flex-col items-center"
+            cls="flex flex-col items-center mt-4"
         )
     )

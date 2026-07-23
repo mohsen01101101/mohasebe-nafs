@@ -67,7 +67,7 @@ def login(req: Request):
             cls="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
         ),
 
-        cls="flex justify-self-center items-center h-dvh"
+        cls="self-center my-auto"
     )
 
     return auth_layout(

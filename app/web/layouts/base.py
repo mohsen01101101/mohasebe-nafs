@@ -37,14 +37,14 @@ def base_layout(req: Request, page_content, title="Mohasebe Nafs", show_header_f
 
             Main(
                 page_content,
-                cls="flex-1 min-h-0"
+                cls="flex flex-col flex-1"
             ),
 
             Footer(
                 footer()
             ),
 
-            cls="flex flex-col max-w-lg h-dvh mx-auto p-4"
+            cls="flex flex-col max-w-lg min-h-dvh mx-auto p-4"
         ),
 
         lang="fa",

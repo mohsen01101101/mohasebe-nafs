@@ -5,7 +5,6 @@ from app.web.components.lists import lists
 
 
 def register_list_routes(rt):
-
     @rt("/web-api/lists")
     def get_lists(
         session,
