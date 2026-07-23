@@ -5,7 +5,7 @@ from app.db.database import get_session
 from app.services.auth import AuthService
 from app.services.user import UserService
 from app.services.list import ListService
-from app.services.action import ActionService, ActionStateService
+from app.services.action import ActionService, ActionStateService, ActionWithStateService
 from app.core.security import decode_access_token
 from app.core.config import settings
 
@@ -42,6 +42,12 @@ def get_action_state_service(
     session: Session = Depends(get_session)
 ):
     return ActionStateService(session)
+
+
+def get_action_with_state_service(
+    session: Session = Depends(get_session)
+):
+    return ActionWithStateService(session)
 
 
 def get_current_user(
