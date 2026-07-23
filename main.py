@@ -6,6 +6,7 @@ from app.web.pages.home import home
 from app.web.pages.login import login
 from app.web.client.auth import login as client_login
 from app.web.handlers.lists import register_list_routes
+from app.web.handlers.actions import register_action_routes
 
 
 app, rt = fast_app(
@@ -23,6 +24,7 @@ app.mount(
 
 
 register_list_routes(rt)
+register_action_routes(rt)
 
 
 @rt("/login")
