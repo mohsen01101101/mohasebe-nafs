@@ -2,6 +2,7 @@ from app.core.config import settings
 from app.web.client.http import client
 from app.domain.enum.tracking_type import TrackingType
 from datetime import datetime, date
+from app.schemas.action import ActionWithStateRead
 
 
 BASE_URL = f"{settings.api_base_url}/users"
@@ -50,7 +51,10 @@ def get_my_actions_with_state(
 
     response.raise_for_status()
 
-    return response.json()
+    return [
+        ActionWithStateRead(**item)
+        for item in response.json()
+    ]
 
 
 def create_action(
