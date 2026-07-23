@@ -1,15 +1,25 @@
 from app.core.config import settings
 from app.web.client.http import client
 from app.domain.enum.tracking_type import TrackingType
-from datetime import datetime
+from datetime import datetime, date
 
 
 BASE_URL = f"{settings.api_base_url}/users"
 
 
-def get_my_actions(token: str, list_id: int):
+def get_my_actions(
+        token: str,
+        list_id: int,
+        selected_date: date | None = None
+):
+    params = {}
+
+    if selected_date is not None:
+        params["selected_date"] = selected_date.isoformat()
+
     response = client.get(
         url=f"{BASE_URL}/me/lists/{list_id}/actions",
+        params=params,
         headers={
             "Authorization": f"Bearer {token}"
         }
