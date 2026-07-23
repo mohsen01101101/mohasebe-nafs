@@ -1,30 +1,40 @@
-function initDoranDatepicker() {
-  const doranDatePicker = document.querySelector("doran-datepicker");
+import { loadListActions } from "./lists.js";
 
-  if (!doranDatePicker) return;
+function initDatepicker() {
+  const datepicker = document.querySelector("doran-datepicker");
 
-  let currentDate = doranDatePicker
+  if (!datepicker) return;
+
+  const container = document.querySelector("#lists-container");
+
+  let currentDate = datepicker
     .querySelector(".doran-datepicker__value")
     .textContent.trim();
 
-  new MutationObserver(() => {
-    const newDate = doranDatePicker
+  loadListActions(container, currentDate);
+
+  const observer = new MutationObserver(() => {
+    const newDate = datepicker
       .querySelector(".doran-datepicker__value")
       .textContent.trim();
 
-    if (newDate === currentDate) return;
+    if (newDate !== currentDate) {
+      currentDate = newDate;
 
-    currentDate = newDate;
+      fetch(`/web-api/lists?jalali_date=${newDate}`)
+        .then((response) => response.text())
+        .then(async (html) => {
+          container.innerHTML = html;
+          await loadListActions(container, newDate);
+        });
+    }
+  });
 
-    fetch(`/web-api/lists?jalali_date=${newDate}`)
-      .then((response) => response.text())
-      .then((html) => {
-        document.querySelector("#lists-container").innerHTML = html;
-      });
-  }).observe(doranDatePicker, {
+  observer.observe(datepicker, {
     childList: true,
     characterData: true,
+    subtree: true,
   });
 }
 
-document.addEventListener("DOMContentLoaded", initDoranDatepicker);
+document.addEventListener("DOMContentLoaded", initDatepicker);
