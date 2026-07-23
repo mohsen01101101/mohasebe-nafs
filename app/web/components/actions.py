@@ -1,9 +1,11 @@
 from fasthtml.common import *
 from app.core.utils.digits_converter import to_persian_digits
+from app.schemas.action import ActionWithStateRead
+from app.domain.enum.tracking_type import TrackingType
 
 
-def actions(actions_data: list[dict[str, str | int]]):
-    actions_html = Section(
+def actions(actions_data: list[ActionWithStateRead]):
+    actions_with_state_html = Section(
         Ul(
             *[
                 Li(
@@ -14,25 +16,101 @@ def actions(actions_data: list[dict[str, str | int]]):
 
                     Div(
                         Div(
-                            item["title"]
+                            item.title
                         ),
 
                         P(
-                            item["description"],
+                            item.description,
                             cls="text-xs opacity-60"
                         ),
 
                         cls="list-col-grow"
                     ),
 
-                    cls="list-row"
+                    (
+                        Input(
+                            type="checkbox",
+                            cls="checkbox"
+                        )
+                        if item.tracking_type == TrackingType.CHECKBOX
+                        else Div(
+                            Input(
+                                type="radio",
+                                name=f"rating-{item.id}",
+                                cls="rating-hidden"
+                            ),
+                            Input(
+                                type="radio",
+                                name=f"rating-{item.id}",
+                                cls="mask mask-star-2 mask-half-1",
+                                aria_label="0.5 star"
+                            ),
+                            Input(
+                                type="radio",
+                                name=f"rating-{item.id}",
+                                cls="mask mask-star-2 mask-half-2",
+                                aria_label="1 star"
+                            ),
+                            Input(
+                                type="radio",
+                                name=f"rating-{item.id}",
+                                cls="mask mask-star-2 mask-half-1",
+                                aria_label="1.5 star"
+                            ),
+                            Input(
+                                type="radio",
+                                name=f"rating-{item.id}",
+                                cls="mask mask-star-2 mask-half-2",
+                                aria_label="2 star"
+                            ),
+                            Input(
+                                type="radio",
+                                name=f"rating-{item.id}",
+                                cls="mask mask-star-2 mask-half-1",
+                                aria_label="2.5 star"
+                            ),
+                            Input(
+                                type="radio",
+                                name=f"rating-{item.id}",
+                                cls="mask mask-star-2 mask-half-2",
+                                aria_label="3 star"
+                            ),
+                            Input(
+                                type="radio",
+                                name=f"rating-{item.id}",
+                                cls="mask mask-star-2 mask-half-1",
+                                aria_label="3.5 star"
+                            ),
+                            Input(
+                                type="radio",
+                                name=f"rating-{item.id}",
+                                cls="mask mask-star-2 mask-half-2",
+                                aria_label="4 star"
+                            ),
+                            Input(
+                                type="radio",
+                                name=f"rating-{item.id}",
+                                cls="mask mask-star-2 mask-half-1",
+                                aria_label="4.5 star"
+                            ),
+                            Input(
+                                type="radio",
+                                name=f"rating-{item.id}",
+                                cls="mask mask-star-2 mask-half-2",
+                                aria_label="5 star"
+                            ),
+                            cls="rating rating-md rating-half"
+                        )
+                    ),
+
+                    cls="list-row items-center"
                 )
 
                 for index, item in enumerate(actions_data, start=1)
             ],
 
-            cls="list bg-base-100 rounded-box shadow-md flex flex-col gap-2"
+            cls="list bg-base-100 rounded-box shadow-md"
         )
     )
 
-    return actions_html
+    return actions_with_state_html
