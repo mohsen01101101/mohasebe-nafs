@@ -30,6 +30,17 @@ class ActionStateRead(BaseModel):
     day: date
 
 
+class ActionWithStateRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    title: str
+    description: str | None = None
+    tracking_type: TrackingType
+    is_done: bool | None = None
+    rating: int | None = None
+
+
 class ActionUpdate(BaseModel):
     title: str | None = None
     description: str | None = None

@@ -1,7 +1,7 @@
 from sqlmodel import Session, select
 from app.db.models.action import ActionModel, ActionStateModel
 from app.db.models.list import ListModel
-from app.schemas.action import ActionStateRead
+from app.schemas.action import ActionStateRead, ActionWithStateRead
 from app.domain.enum.tracking_type import TrackingType
 from datetime import datetime, date
 from app.core.constants import IRAN_TZ
@@ -308,3 +308,47 @@ class ActionStateService:
         self.session.add(state)
 
         return state
+
+
+class ActionWithStateService:
+    def __init__(self, session: Session):
+        self.session = session
+        self.action_service = ActionService(session)
+        self.action_state_service = ActionStateService(session)
+
+    def get_actions_with_state(
+        self,
+        user_id: int,
+        list_id: int,
+        target_date: date | None = None
+    ):
+        actions = self.action_service.get_all(
+            user_id=user_id,
+            list_id=list_id,
+            selected_date=target_date
+        )
+
+        result = []
+
+        for action in actions:
+            assert action.id is not None
+
+            state = self.action_state_service.get_by_day(
+                user_id=user_id,
+                list_id=list_id,
+                action_id=action.id,
+                day=target_date
+            )
+
+            result.append(
+                ActionWithStateRead(
+                    id=action.id,
+                    title=action.title,
+                    description=action.description,
+                    tracking_type=action.tracking_type,
+                    is_done=state.is_done,
+                    rating=state.rating
+                )
+            )
+
+        return result
