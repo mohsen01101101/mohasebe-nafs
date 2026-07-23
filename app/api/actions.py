@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Query, Depends, HTTPException
 from datetime import datetime, date
 from app.core.constants import IRAN_TZ
-from app.schemas.action import ActionRead, ActionCreate, ActionUpdate, ActionStateRead, ActionStateUpdate
+from app.schemas.action import ActionRead, ActionCreate, ActionUpdate, ActionStateRead, ActionStateUpdate, ActionWithStateRead
 from app.api.permissions import require_teacher
-from app.api.dependencies import get_action_service, get_action_state_service, get_current_user
+from app.api.dependencies import get_action_service, get_action_state_service, get_action_with_state_service, get_current_user
 from app.db.models.user import UserModel
-from app.services.action import ActionService, ActionStateService
+from app.services.action import ActionService, ActionStateService, ActionWithStateService
 
 
 router = APIRouter(prefix="/users", tags=["Actions"])
@@ -47,6 +47,27 @@ def get_my_action_state_by_day(
     )
 
     return action_state
+
+
+@router.get("/me/lists/{list_id}/actions/daily", response_model=list[ActionWithStateRead])
+def get_my_actions_with_state_by_day(
+    list_id: int,
+    current_user: UserModel = Depends(get_current_user),
+    selected_date: date = Query(
+        default_factory=lambda: datetime.now(IRAN_TZ).date()
+    ),
+    service: ActionWithStateService = Depends(
+        get_action_with_state_service
+    )
+):
+    assert current_user.id is not None
+    actions_with_state = service.get_actions_with_state(
+        user_id=current_user.id,
+        list_id=list_id,
+        target_date=selected_date
+    )
+
+    return actions_with_state
 
 
 @router.post("/me/lists/{list_id}/actions", response_model=ActionRead)
