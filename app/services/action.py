@@ -211,7 +211,7 @@ class ActionStateService:
         list_id: int,
         action_id: int,
         is_done: bool | None = None,
-        rating: int | None = None,
+        rating: float | None = None,
         day: date | None = None
     ):
         if is_done is None and rating is None:

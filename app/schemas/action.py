@@ -26,7 +26,7 @@ class ActionStateRead(BaseModel):
     id: int | None = None
     action_id: int
     is_done: bool | None = None
-    rating: int | None = None
+    rating: float | None = None
     day: date
 
 
@@ -38,7 +38,7 @@ class ActionWithStateRead(BaseModel):
     description: str | None = None
     tracking_type: TrackingType
     is_done: bool | None = None
-    rating: int | None = None
+    rating: float | None = None
 
 
 class ActionUpdate(BaseModel):
@@ -48,5 +48,5 @@ class ActionUpdate(BaseModel):
 
 class ActionStateUpdate(BaseModel):
     is_done: bool | None = None
-    rating: int | None = Field(default=None, ge=0, le=5)
+    rating: float | None = Field(default=None, ge=0, le=5)
     day: date | None = None

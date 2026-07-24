@@ -41,7 +41,7 @@ def register_action_routes(rt):
         action_id: int,
         index: int,
         is_done: bool | None = None,
-        rating: int | None = None,
+        rating: float | None = None,
         day: str | None = None
 
     ):

@@ -64,7 +64,7 @@ def create_action(
     tracking_type: TrackingType,
     description: str | None = None,
     is_done: bool | None = None,
-    rating: int | None = None,
+    rating: float | None = None,
     started_at: datetime | None = None
 ):
     data = {
@@ -136,7 +136,7 @@ def update_my_action_state(
     list_id: int,
     action_id: int,
     is_done: bool | None = None,
-    rating: int | None = None,
+    rating: float | None = None,
     day: date | None = None
 ):
     data = {}

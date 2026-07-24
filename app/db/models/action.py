@@ -30,7 +30,7 @@ class ActionStateModel(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     action_id: int = Field(foreign_key="action.id", ondelete="CASCADE")
     is_done: bool | None = Field(default=None)
-    rating: int | None = Field(default=None)
+    rating: float | None = Field(default=None)
     day: date = Field(
         default_factory=lambda: datetime.now(IRAN_TZ).date()
     )
