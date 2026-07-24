@@ -1,4 +1,4 @@
-import { loadListActions } from "./lists.js";
+import { loadListActions } from "./load_list_actions.js";
 
 function initDatepicker() {
   const datepicker = document.querySelector("doran-datepicker");
