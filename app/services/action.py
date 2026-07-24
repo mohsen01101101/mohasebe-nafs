@@ -249,6 +249,13 @@ class ActionStateService:
             day=day
         )
 
+        if is_done is False or rating == 0:
+            if state is not None:
+                self.session.delete(state)
+                self.session.commit()
+
+            return None
+
         if state is None:
             state = self._create(
                 action_id=action_id,
