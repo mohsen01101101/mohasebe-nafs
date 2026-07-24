@@ -67,67 +67,154 @@ def action_item(
                 Input(
                     type="radio",
                     name=f"rating-{item.id}",
-                    cls="rating-hidden"
+                    value="0",
+                    checked=item.rating == 0,
+                    cls="rating-hidden",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                    hx_trigger="change",
+                    hx_target=f"#action-{item.id}",
+                    hx_swap="outerHTML",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
+
                 Input(
                     type="radio",
                     name=f"rating-{item.id}",
+                    value="0.5",
+                    checked=item.rating == 0.5,
                     cls="mask mask-star-2 mask-half-1",
-                    aria_label="0.5 star"
+                    aria_label="0.5 star",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                    hx_trigger="change",
+                    hx_target=f"#action-{item.id}",
+                    hx_swap="outerHTML",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
+
                 Input(
                     type="radio",
                     name=f"rating-{item.id}",
+                    value="1",
+                    checked=item.rating == 1,
                     cls="mask mask-star-2 mask-half-2",
-                    aria_label="1 star"
+                    aria_label="1 star",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                    hx_trigger="change",
+                    hx_target=f"#action-{item.id}",
+                    hx_swap="outerHTML",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
+
                 Input(
                     type="radio",
                     name=f"rating-{item.id}",
+                    value="1.5",
+                    checked=item.rating == 1.5,
                     cls="mask mask-star-2 mask-half-1",
-                    aria_label="1.5 star"
+                    aria_label="1.5 star",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                    hx_trigger="change",
+                    hx_target=f"#action-{item.id}",
+                    hx_swap="outerHTML",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
+
                 Input(
                     type="radio",
                     name=f"rating-{item.id}",
+                    value="2",
+                    checked=item.rating == 2,
                     cls="mask mask-star-2 mask-half-2",
-                    aria_label="2 star"
+                    aria_label="2 star",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                    hx_trigger="change",
+                    hx_target=f"#action-{item.id}",
+                    hx_swap="outerHTML",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
+
                 Input(
                     type="radio",
                     name=f"rating-{item.id}",
+                    value="2.5",
+                    checked=item.rating == 2.5,
                     cls="mask mask-star-2 mask-half-1",
-                    aria_label="2.5 star"
+                    aria_label="2.5 star",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                    hx_trigger="change",
+                    hx_target=f"#action-{item.id}",
+                    hx_swap="outerHTML",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
+
                 Input(
                     type="radio",
                     name=f"rating-{item.id}",
+                    value="3",
+                    checked=item.rating == 3,
                     cls="mask mask-star-2 mask-half-2",
-                    aria_label="3 star"
+                    aria_label="3 star",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                    hx_trigger="change",
+                    hx_target=f"#action-{item.id}",
+                    hx_swap="outerHTML",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
+
                 Input(
                     type="radio",
                     name=f"rating-{item.id}",
+                    value="3.5",
+                    checked=item.rating == 3.5,
                     cls="mask mask-star-2 mask-half-1",
-                    aria_label="3.5 star"
+                    aria_label="3.5 star",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                    hx_trigger="change",
+                    hx_target=f"#action-{item.id}",
+                    hx_swap="outerHTML",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
+
                 Input(
                     type="radio",
                     name=f"rating-{item.id}",
+                    value="4",
+                    checked=item.rating == 4,
                     cls="mask mask-star-2 mask-half-2",
-                    aria_label="4 star"
+                    aria_label="4 star",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                    hx_trigger="change",
+                    hx_target=f"#action-{item.id}",
+                    hx_swap="outerHTML",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
+
                 Input(
                     type="radio",
                     name=f"rating-{item.id}",
+                    value="4.5",
+                    checked=item.rating == 4.5,
                     cls="mask mask-star-2 mask-half-1",
-                    aria_label="4.5 star"
+                    aria_label="4.5 star",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                    hx_trigger="change",
+                    hx_target=f"#action-{item.id}",
+                    hx_swap="outerHTML",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
+
                 Input(
                     type="radio",
                     name=f"rating-{item.id}",
+                    value="5",
+                    checked=item.rating == 5,
                     cls="mask mask-star-2 mask-half-2",
-                    aria_label="5 star"
+                    aria_label="5 star",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                    hx_trigger="change",
+                    hx_target=f"#action-{item.id}",
+                    hx_swap="outerHTML",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 cls="rating rating-md rating-half"
