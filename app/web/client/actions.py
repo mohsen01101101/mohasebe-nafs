@@ -100,7 +100,7 @@ def create_action(
     return response.json()
 
 
-def update_action(
+def update_my_action(
         token: str,
         list_id: int,
         action_id: int,
@@ -131,7 +131,7 @@ def update_action(
     return response.json()
 
 
-def update_action_state(
+def update_my_action_state(
     token: str,
     list_id: int,
     action_id: int,

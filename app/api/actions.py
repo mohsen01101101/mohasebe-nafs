@@ -126,7 +126,7 @@ def update_action(
         )
 
 
-@router.patch("/me/lists/{list_id}/actions/{action_id}/state", response_model=ActionStateRead)
+@router.patch("/me/lists/{list_id}/actions/{action_id}/state", response_model=ActionStateRead | None)
 def update_action_state_by_day(
     data: ActionStateUpdate,
     list_id: int,
