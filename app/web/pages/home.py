@@ -2,7 +2,7 @@ from fasthtml.common import *
 from datetime import date
 from app.web.layouts.base import app_layout
 from app.web.client.lists import get_my_lists
-from app.web.components.datepicker import datepicker
+from app.web.components.datepicker import datepicker, hidden_datepicker
 from app.web.components.lists import lists
 
 
@@ -18,10 +18,12 @@ def home(req: Request):
     page_content = (
         H1(
             "اعمال امروز",
+            id="homepage-title",
             cls="text-center text-2xl font-bold mb-4"
         ),
 
         datepicker(),
+        hidden_datepicker(),
 
         lists_html
     )
