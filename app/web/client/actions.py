@@ -105,9 +105,7 @@ def update_action(
         list_id: int,
         action_id: int,
         title: str | None = None,
-        description: str | None = None,
-        is_done: bool | None = None,
-        rating: int | None = None,
+        description: str | None = None
 ):
     data = {}
 
@@ -116,6 +114,32 @@ def update_action(
 
     if description is not None:
         data["description"] = description
+
+    if not data:
+        raise ValueError("No fields to update.")
+
+    response = client.patch(
+        url=f"{BASE_URL}/me/lists/{list_id}/actions/{action_id}",
+        headers={
+            "Authorization": f"Bearer {token}"
+        },
+        json=data
+    )
+
+    response.raise_for_status()
+
+    return response.json()
+
+
+def update_action_state(
+    token: str,
+    list_id: int,
+    action_id: int,
+    is_done: bool | None = None,
+    rating: int | None = None,
+    day: date | None = None
+):
+    data = {}
 
     if is_done is not None:
         data["is_done"] = is_done
@@ -126,11 +150,14 @@ def update_action(
 
         data["rating"] = rating
 
+    if day is not None:
+        data["day"] = day.isoformat()
+
     if not data:
         raise ValueError("No fields to update.")
 
     response = client.patch(
-        url=f"{BASE_URL}/me/lists/{list_id}/actions/{action_id}",
+        url=f"{BASE_URL}/me/lists/{list_id}/actions/{action_id}/state",
         headers={
             "Authorization": f"Bearer {token}"
         },
