@@ -1,17 +1,14 @@
-import { loadListActions } from "./load_list_actions.js";
-
-function initDatepicker() {
+function initDatepickerSync() {
   const datepicker = document.querySelector("doran-datepicker");
+  const dateInput = document.getElementById("new-date");
 
-  if (!datepicker) return;
-
-  const container = document.querySelector("#lists-container");
+  if (!datepicker || !dateInput) return;
 
   let currentDate = datepicker
     .querySelector(".doran-datepicker__value")
     .textContent.trim();
 
-  loadListActions(container, currentDate);
+  dateInput.value = currentDate;
 
   const observer = new MutationObserver(() => {
     const newDate = datepicker
@@ -21,12 +18,9 @@ function initDatepicker() {
     if (newDate !== currentDate) {
       currentDate = newDate;
 
-      fetch(`/web-api/lists?jalali_date=${newDate}`)
-        .then((response) => response.text())
-        .then(async (html) => {
-          container.innerHTML = html;
-          await loadListActions(container, newDate);
-        });
+      dateInput.value = newDate;
+
+      document.body.dispatchEvent(new Event("app:dateChanged"));
     }
   });
 
@@ -37,4 +31,4 @@ function initDatepicker() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", initDatepicker);
+document.addEventListener("DOMContentLoaded", initDatepickerSync);

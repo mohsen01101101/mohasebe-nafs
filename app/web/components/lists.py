@@ -11,7 +11,9 @@ def lists(lists_data: list[dict[str, str | int]]):
                 ),
 
                 Div(
-                    data_actions_url=f"/web-api/lists/{item['id']}/actions"
+                    hx_get=f"/web-api/lists/{item['id']}/actions",
+                    hx_trigger="load",
+                    hx_swap="innerHTML"
                 ),
 
                 cls="fieldset bg-base-200 border-base-300 rounded-box border p-4"
@@ -19,7 +21,11 @@ def lists(lists_data: list[dict[str, str | int]]):
             for item in lists_data
         ],
 
-        id="lists-container"
+        id="lists-container",
+        hx_get="/web-api/lists",
+        hx_trigger="app:dateChanged from:body",
+        hx_include="#new-date",
+        hx_swap="outerHTML"
     )
 
     return lists_html

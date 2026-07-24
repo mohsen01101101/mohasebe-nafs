@@ -1,5 +1,6 @@
 from fasthtml.common import *
-from datetime import date
+from datetime import datetime
+from app.core.constants import IRAN_TZ
 from app.web.layouts.base import app_layout
 from app.web.client.lists import get_my_lists
 from app.web.components.datepicker import datepicker, hidden_datepicker
@@ -11,7 +12,7 @@ def home(req: Request):
 
     lists_data = get_my_lists(
         token=token,
-        selected_date=date.today()
+        selected_date=datetime.now(IRAN_TZ).date()
     )
     lists_html = lists(lists_data)
 
@@ -24,6 +25,12 @@ def home(req: Request):
 
         datepicker(),
         hidden_datepicker(),
+
+        Input(
+            type="hidden",
+            id="new-date",
+            name="jalali_date"
+        ),
 
         lists_html
     )
