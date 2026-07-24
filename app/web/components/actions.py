@@ -4,11 +4,15 @@ from app.schemas.action import ActionWithStateRead
 from app.domain.enum.tracking_type import TrackingType
 
 
-def actions(actions_data: list[ActionWithStateRead]):
+def actions(
+    list_id: int,
+    actions_data: list[ActionWithStateRead]
+):
     actions_with_state_html = Section(
         Ul(
             *[
                 action_item(
+                    list_id=list_id,
                     item=item,
                     index=index
                 )
@@ -23,6 +27,7 @@ def actions(actions_data: list[ActionWithStateRead]):
 
 
 def action_item(
+    list_id: int,
     item: ActionWithStateRead,
     index: int
 ):
@@ -48,6 +53,13 @@ def action_item(
         (
             Input(
                 type="checkbox",
+                name="is_done",
+                checked=item.is_done,
+                hx_patch=f"/web-api/lists/{list_id}/actions/{item.id}/state",
+                hx_trigger="change",
+                hx_target=f"#action-{item.id}",
+                hx_swap="outerHTML",
+                hx_vals=f'js:{{is_done: event.target.checked, index: {index}}}',
                 cls="checkbox"
             )
             if item.tracking_type == TrackingType.CHECKBOX
