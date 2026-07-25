@@ -50,7 +50,7 @@ def register_action_routes(rt):
         selected_day = None
 
         if day:
-            selected_day = date.fromisoformat(day)
+            selected_day = jalali_to_gregorian(day)
 
         update_my_action_state(
             token=token,
