@@ -7,7 +7,7 @@ def lists(lists_data: list[dict[str, str | int]]):
             Fieldset(
                 Legend(
                     item["title"],
-                    cls="fieldset-legend pr-6"
+                    cls="fieldset-legend mr-6 p-0"
                 ),
 
                 Div(
@@ -16,7 +16,7 @@ def lists(lists_data: list[dict[str, str | int]]):
                     hx_swap="innerHTML"
                 ),
 
-                cls="fieldset bg-base-200 border-base-300 rounded-box border p-4"
+                cls="fieldset bg-base-200 border-base-300 rounded-box border mt-2 p-4"
             )
             for item in lists_data
         ],

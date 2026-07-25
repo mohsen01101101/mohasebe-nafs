@@ -19,7 +19,7 @@ def actions(
                 for index, item in enumerate(actions_data, start=1)
             ],
 
-            cls="list bg-base-100 rounded-box shadow-md"
+            cls="list bg-base-100 rounded-2xl shadow-md"
         )
     )
 

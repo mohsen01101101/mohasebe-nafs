@@ -49,4 +49,9 @@ body {
 
   /* Doran - The Persian Calendar */
   --doran-primary: var(--color-primary);
+  --doran-radius-sm: var(--size-selector);
+  --doran-radius-md: var(--radius-field);
+  --doran-radius-lg: var(--radius-box);
+  --doran-radius-full: var(--radius-field);
+  --doran-border-width: var(--border);
 }
