@@ -1,34 +1,32 @@
-function initDatepickerSync() {
+function initDatepicker() {
   const datepicker = document.querySelector("doran-datepicker");
-  const dateInput = document.getElementById("new-date");
 
-  if (!datepicker || !dateInput) return;
+  if (!datepicker) return;
 
-  let currentDate = datepicker
-    .querySelector(".doran-datepicker__value")
-    .textContent.trim();
-
-  dateInput.value = currentDate;
-
-  const observer = new MutationObserver(() => {
-    const newDate = datepicker
-      .querySelector(".doran-datepicker__value")
-      .textContent.trim();
-
-    if (newDate !== currentDate) {
-      currentDate = newDate;
-
-      dateInput.value = newDate;
-
-      document.body.dispatchEvent(new Event("app:dateChanged"));
-    }
-  });
-
-  observer.observe(datepicker, {
-    childList: true,
-    characterData: true,
-    subtree: true,
+  datepicker.addEventListener("change", (event) => {
+    document.body.dispatchEvent(
+      new CustomEvent("app:dateChanged", {
+        detail: {
+          date: event.detail.date,
+          iso: event.detail.iso,
+        },
+      }),
+    );
   });
 }
+document.addEventListener("DOMContentLoaded", initDatepicker);
 
-document.addEventListener("DOMContentLoaded", initDatepickerSync);
+function getSelectedDate() {
+  const datepicker = document.querySelector("doran-datepicker");
+
+  if (!datepicker || !datepicker.value) {
+    return new Date().toISOString().split("T")[0];
+  }
+
+  return datepicker.value.epochMs
+    ? new Date(datepicker.value.epochMs).toLocaleDateString("en-CA", {
+        timeZone: "Asia/Tehran",
+      })
+    : null;
+}
+window.getSelectedDate = getSelectedDate;

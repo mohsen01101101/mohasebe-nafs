@@ -13,6 +13,7 @@ def lists(lists_data: list[dict[str, str | int]]):
                 Div(
                     hx_get=f"/web-api/lists/{item['id']}/actions",
                     hx_trigger="load",
+                    hx_vals="js:{selected_date_iso: getSelectedDate()}",
                     hx_swap="innerHTML"
                 ),
 
@@ -24,7 +25,7 @@ def lists(lists_data: list[dict[str, str | int]]):
         id="lists-container",
         hx_get="/web-api/lists",
         hx_trigger="app:dateChanged from:body",
-        hx_include="#new-date",
+        hx_vals="js:{selected_date_iso: getSelectedDate()}",
         hx_swap="outerHTML"
     )
 

@@ -27,23 +27,6 @@ def jalali_today_numeric():
     return date
 
 
-def jalali_to_gregorian(jalali_date: str):
-    jalali_date = to_english_digits(jalali_date)
-
-    year, month, day = map(
-        int,
-        jalali_date.split("/")
-    )
-
-    result = jdatetime.date(
-        year,
-        month,
-        day
-    ).togregorian()
-
-    return result
-
-
 def _jalali_today():
     now = datetime.now(IRAN_TZ).date()
 

@@ -1,6 +1,6 @@
 from fasthtml.common import *
+from datetime import date
 from app.web.client.lists import get_my_lists
-from app.core.utils.date_converter import jalali_to_gregorian
 from app.web.components.lists import lists
 
 
@@ -8,15 +8,15 @@ def register_list_routes(rt):
     @rt("/web-api/lists")
     def get_lists(
         session,
-        jalali_date: str | None = None
+        selected_date_iso: str | None = None
     ):
 
         token = session["access_token"]
 
         selected_date = None
 
-        if jalali_date:
-            selected_date = jalali_to_gregorian(jalali_date)
+        if selected_date_iso:
+            selected_date = date.fromisoformat(selected_date_iso)
 
         lists_data = get_my_lists(
             token=token,

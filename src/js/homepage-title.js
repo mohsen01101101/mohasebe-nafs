@@ -1,19 +1,20 @@
 function syncDatepickerTitle() {
-  const datepicker = document.querySelectorAll("doran-datepicker")[1];
+  const datepicker = document.querySelector("doran-datepicker");
   const title = document.getElementById("homepage-title");
+
+  if (!datepicker || !title) return;
+
   const today = datepicker
     .querySelector(".doran-datepicker__value")
     .textContent.trim();
 
-  if (!datepicker || !title) return;
-
-  const observer = new MutationObserver(() => {
+  const updateTitle = () => {
     const dateText = datepicker
       .querySelector(".doran-datepicker__value")
       .textContent.trim();
 
-    if (dateText == today) {
-      title.textContent = `اعمال امروز`;
+    if (dateText === today) {
+      title.textContent = "اعمال امروز";
       title.classList.remove("text-lg");
       title.classList.add("text-2xl");
     } else {
@@ -21,12 +22,9 @@ function syncDatepickerTitle() {
       title.classList.remove("text-2xl");
       title.classList.add("text-lg");
     }
-  });
+  };
 
-  observer.observe(datepicker, {
-    childList: true,
-    subtree: true,
-  });
+  datepicker.addEventListener("change", updateTitle);
 }
 
 document.addEventListener("DOMContentLoaded", syncDatepickerTitle);

@@ -3,7 +3,7 @@ from datetime import datetime
 from app.core.constants import IRAN_TZ
 from app.web.layouts.base import app_layout
 from app.web.client.lists import get_my_lists
-from app.web.components.datepicker import datepicker, hidden_datepicker
+from app.web.components.datepicker import datepicker
 from app.web.components.lists import lists
 
 
@@ -24,13 +24,6 @@ def home(req: Request):
         ),
 
         datepicker(),
-        hidden_datepicker(),
-
-        Input(
-            type="hidden",
-            id="new-date",
-            name="jalali_date"
-        ),
 
         lists_html
     )
