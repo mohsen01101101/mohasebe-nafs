@@ -39,8 +39,8 @@ def lists_overview(lists_data: list[dict[str, str | int]]):
             cls="overflow-x-auto"
         ),
 
-        id="lists-container",
-        hx_get="/web-api/lists",
+        id="lists_overview-container",
+        hx_get="/web-api/lists/overview",
         hx_trigger="load, lists:changed from:body",
         hx_swap="outerHTML"
     )
@@ -69,25 +69,11 @@ def lists_with_actions(lists_data: list[dict[str, str | int]]):
             for item in lists_data
         ],
 
-        id="lists-container",
-        hx_get="/web-api/lists",
+        id="lists_with_actions-container",
+        hx_get="/web-api/lists/with-actions",
         hx_trigger="app:dateChanged from:body",
         hx_vals="js:{selected_date_iso: getSelectedDate()}",
         hx_swap="outerHTML"
     )
 
     return lists_with_actions_html
-
-
-def lists(
-    lists_data: list[dict[str, str | int]],
-    variant: str
-):
-    if variant == "overview":
-        return lists_overview(lists_data)
-
-    elif variant == "with_actions":
-        return lists_with_actions(lists_data)
-
-    else:
-        raise ValueError(f"Unknown list variant: {variant}")

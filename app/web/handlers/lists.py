@@ -1,16 +1,15 @@
 from fasthtml.common import *
 from datetime import date
 from app.web.client.lists import get_my_lists
-from app.web.components.lists import lists_with_actions
+from app.web.components.lists import lists_with_actions, lists_overview
 
 
 def register_list_routes(rt):
-    @rt("/web-api/lists")
+    @rt("/web-api/lists/with-actions")
     def get_lists(
         session,
         selected_date_iso: str | None = None
     ):
-
         token = session["access_token"]
 
         selected_date = None
@@ -25,3 +24,16 @@ def register_list_routes(rt):
         lists_with_actions_html = lists_with_actions(lists_data)
 
         return lists_with_actions_html
+
+    @rt("/web-api/lists/overview")
+    def get_lists_overview(
+        session
+    ):
+        token = session["access_token"]
+
+        lists_data = get_my_lists(
+            token=token
+        )
+        lists_overview_html = lists_overview(lists_data)
+
+        return lists_overview_html
