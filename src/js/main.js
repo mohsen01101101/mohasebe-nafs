@@ -4,3 +4,4 @@ import "@doranjs/wc/styles.css";
 import "htmx.org";
 import "./datepicker.js";
 import "./homepage-title.js";
+import "./lists.js";
