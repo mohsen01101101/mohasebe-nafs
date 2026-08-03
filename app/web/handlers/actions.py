@@ -1,5 +1,6 @@
 from fasthtml.common import *
-from datetime import date
+from datetime import datetime
+from app.core.constants import IRAN_TZ
 from app.web.client.actions import get_my_actions_with_state, update_my_action_state
 from app.web.components.actions import actions, action_item
 
@@ -16,7 +17,9 @@ def register_action_routes(rt):
         selected_date = None
 
         if selected_date_iso:
-            selected_date = date.fromisoformat(selected_date_iso)
+            selected_date = datetime.fromisoformat(
+                selected_date_iso.replace("Z", "+00:00")
+            ).astimezone(IRAN_TZ).date()
 
         actions_with_state_data = get_my_actions_with_state(
             token=token,
@@ -49,7 +52,9 @@ def register_action_routes(rt):
         selected_day = None
 
         if day:
-            selected_day = date.fromisoformat(day)
+            selected_day = datetime.fromisoformat(
+                day.replace("Z", "+00:00")
+            ).astimezone(IRAN_TZ).date()
 
         update_my_action_state(
             token=token,

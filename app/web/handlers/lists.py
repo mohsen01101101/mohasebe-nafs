@@ -17,7 +17,9 @@ def register_list_routes(rt):
         selected_date = None
 
         if selected_date_iso:
-            selected_date = date.fromisoformat(selected_date_iso)
+            selected_date = datetime.fromisoformat(
+                selected_date_iso.replace("Z", "+00:00")
+            ).astimezone(IRAN_TZ).date()
 
         lists_data = get_my_lists(
             token=token,

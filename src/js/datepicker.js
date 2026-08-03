@@ -26,17 +26,13 @@ function initDatepicker() {
 document.addEventListener("DOMContentLoaded", initDatepicker);
 
 function getSelectedDate() {
-  const datepicker = document.querySelector("doran-datepicker");
+  const hiddenInput = document.querySelector('input[name="selected_date_iso"]');
 
-  if (!datepicker || !datepicker.value) {
+  if (!hiddenInput || !hiddenInput.value) {
     return new Date().toISOString().split("T")[0];
   }
 
-  return datepicker.value.epochMs
-    ? new Date(datepicker.value.epochMs).toLocaleDateString("en-CA", {
-        timeZone: "Asia/Tehran",
-      })
-    : null;
+  return hiddenInput.value;
 }
 
 window.getSelectedDate = getSelectedDate;
