@@ -59,7 +59,8 @@ def action_item(
                 hx_trigger="change",
                 hx_target=f"#action-{item.id}",
                 hx_swap="outerHTML",
-                hx_vals=f'js:{{is_done: event.target.checked, index: {index}, day: getSelectedDate()}}',
+                hx_include="[name='selected_date_iso']",
+                hx_vals=f'js:{{is_done: event.target.checked, index: {index}}}',
                 cls="checkbox"
             )
             if item.tracking_type == TrackingType.CHECKBOX
@@ -74,7 +75,8 @@ def action_item(
                     hx_trigger="change",
                     hx_target=f"#action-{item.id}",
                     hx_swap="outerHTML",
-                    hx_vals=f'js:{{rating: event.target.value, index: {index}, day: getSelectedDate()}}'
+                    hx_include="[name='selected_date_iso']",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 Input(
@@ -88,7 +90,8 @@ def action_item(
                     hx_trigger="change",
                     hx_target=f"#action-{item.id}",
                     hx_swap="outerHTML",
-                    hx_vals=f'js:{{rating: event.target.value, index: {index}, day: getSelectedDate()}}'
+                    hx_include="[name='selected_date_iso']",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 Input(
@@ -102,7 +105,8 @@ def action_item(
                     hx_trigger="change",
                     hx_target=f"#action-{item.id}",
                     hx_swap="outerHTML",
-                    hx_vals=f'js:{{rating: event.target.value, index: {index}, day: getSelectedDate()}}'
+                    hx_include="[name='selected_date_iso']",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 Input(
@@ -116,7 +120,8 @@ def action_item(
                     hx_trigger="change",
                     hx_target=f"#action-{item.id}",
                     hx_swap="outerHTML",
-                    hx_vals=f'js:{{rating: event.target.value, index: {index}, day: getSelectedDate()}}'
+                    hx_include="[name='selected_date_iso']",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 Input(
@@ -130,7 +135,8 @@ def action_item(
                     hx_trigger="change",
                     hx_target=f"#action-{item.id}",
                     hx_swap="outerHTML",
-                    hx_vals=f'js:{{rating: event.target.value, index: {index}, day: getSelectedDate()}}'
+                    hx_include="[name='selected_date_iso']",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 Input(
@@ -144,7 +150,8 @@ def action_item(
                     hx_trigger="change",
                     hx_target=f"#action-{item.id}",
                     hx_swap="outerHTML",
-                    hx_vals=f'js:{{rating: event.target.value, index: {index}, day: getSelectedDate()}}'
+                    hx_include="[name='selected_date_iso']",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 Input(
@@ -158,7 +165,8 @@ def action_item(
                     hx_trigger="change",
                     hx_target=f"#action-{item.id}",
                     hx_swap="outerHTML",
-                    hx_vals=f'js:{{rating: event.target.value, index: {index}, day: getSelectedDate()}}'
+                    hx_include="[name='selected_date_iso']",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 Input(
@@ -172,7 +180,8 @@ def action_item(
                     hx_trigger="change",
                     hx_target=f"#action-{item.id}",
                     hx_swap="outerHTML",
-                    hx_vals=f'js:{{rating: event.target.value, index: {index}, day: getSelectedDate()}}'
+                    hx_include="[name='selected_date_iso']",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 Input(
@@ -186,7 +195,8 @@ def action_item(
                     hx_trigger="change",
                     hx_target=f"#action-{item.id}",
                     hx_swap="outerHTML",
-                    hx_vals=f'js:{{rating: event.target.value, index: {index}, day: getSelectedDate()}}'
+                    hx_include="[name='selected_date_iso']",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 Input(
@@ -200,7 +210,8 @@ def action_item(
                     hx_trigger="change",
                     hx_target=f"#action-{item.id}",
                     hx_swap="outerHTML",
-                    hx_vals=f'js:{{rating: event.target.value, index: {index}, day: getSelectedDate()}}'
+                    hx_include="[name='selected_date_iso']",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 Input(
@@ -214,7 +225,8 @@ def action_item(
                     hx_trigger="change",
                     hx_target=f"#action-{item.id}",
                     hx_swap="outerHTML",
-                    hx_vals=f'js:{{rating: event.target.value, index: {index}, day: getSelectedDate()}}'
+                    hx_include="[name='selected_date_iso']",
+                    hx_vals=f'js:{{rating: event.target.value, index: {index}}}'
                 ),
 
                 cls="rating rating-md rating-half"

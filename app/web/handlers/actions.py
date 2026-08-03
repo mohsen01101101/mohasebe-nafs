@@ -44,16 +44,16 @@ def register_action_routes(rt):
         index: int,
         is_done: bool | None = None,
         rating: float | None = None,
-        day: str | None = None
+        selected_date_iso: str | None = None
 
     ):
         token = session["access_token"]
 
         selected_day = None
 
-        if day:
+        if selected_date_iso:
             selected_day = datetime.fromisoformat(
-                day.replace("Z", "+00:00")
+                selected_date_iso.replace("Z", "+00:00")
             ).astimezone(IRAN_TZ).date()
 
         update_my_action_state(

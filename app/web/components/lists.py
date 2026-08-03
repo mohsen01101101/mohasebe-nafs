@@ -60,7 +60,7 @@ def lists_with_actions(lists_data: list[dict[str, str | int]]):
                 Div(
                     hx_get=f"/web-api/lists/{item['id']}/actions",
                     hx_trigger="load",
-                    hx_vals="js:{selected_date_iso: getSelectedDate()}",
+                    hx_include="[name='selected_date_iso']",
                     hx_swap="innerHTML"
                 ),
 
@@ -72,7 +72,7 @@ def lists_with_actions(lists_data: list[dict[str, str | int]]):
         id="lists_with_actions-container",
         hx_get="/web-api/lists/with-actions",
         hx_trigger="app:dateChanged from:body",
-        hx_vals="js:{selected_date_iso: getSelectedDate()}",
+        hx_include="[name='selected_date_iso']",
         hx_swap="outerHTML"
     )
 
