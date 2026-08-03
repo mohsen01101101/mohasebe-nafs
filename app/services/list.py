@@ -41,7 +41,7 @@ class ListService:
         }
 
         if created_at is not None:
-            data["created_at"] = created_at
+            data["created_date"] = created_at
 
         new_list = ListModel(**data)
 
