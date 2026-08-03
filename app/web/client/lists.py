@@ -1,6 +1,6 @@
 from app.core.config import settings
 from app.web.client.http import client
-from datetime import datetime, date
+from datetime import date
 
 
 BASE_URL = f"{settings.api_base_url}/users"
@@ -31,7 +31,7 @@ def get_my_lists(
 def create_list(
     token: str,
     title: str,
-    created_at: datetime | None = None
+    created_at: date | None = None
 ):
     data = {
         "title": title
