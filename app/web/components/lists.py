@@ -1,8 +1,61 @@
 from fasthtml.common import *
 
 
-def lists(lists_data: list[dict[str, str | int]]):
-    lists_html = Section(
+def lists_overview(lists_data: list[dict[str, str | int]]):
+    lists_overview_html = Section(
+        Div(
+
+            H2(
+                "لیست های من",
+                cls="text-center text-xl font-bold mb-2"
+            ),
+
+            Table(
+                Tbody(
+                    *[
+                        Tr(
+                            Td(
+                                item["title"],
+                                cls="w-full"
+                            ),
+
+                            Td(
+                                Div(
+                                    Button(
+                                        "ویرایش",
+                                        cls="btn btn-sm btn-soft"
+                                    ),
+
+                                    Button(
+                                        "حذف",
+                                        cls="btn btn-sm btn-soft btn-error"
+                                    ),
+
+                                    cls="flex gap-2"
+                                )
+                            )
+                        )
+                        for item in lists_data
+                    ]
+                ),
+
+                cls="table"
+            ),
+
+            cls="overflow-x-auto"
+        ),
+
+        id="lists-container",
+        hx_get="/web-api/lists",
+        hx_trigger="load, lists:changed from:body",
+        hx_swap="outerHTML"
+    )
+
+    return lists_overview_html
+
+
+def lists_with_actions(lists_data: list[dict[str, str | int]]):
+    lists_with_actions_html = Section(
         *[
             Fieldset(
                 Legend(
@@ -29,4 +82,18 @@ def lists(lists_data: list[dict[str, str | int]]):
         hx_swap="outerHTML"
     )
 
-    return lists_html
+    return lists_with_actions_html
+
+
+def lists(
+    lists_data: list[dict[str, str | int]],
+    variant: str
+):
+    if variant == "overview":
+        return lists_overview(lists_data)
+
+    elif variant == "with_actions":
+        return lists_with_actions(lists_data)
+
+    else:
+        raise ValueError(f"Unknown list variant: {variant}")
