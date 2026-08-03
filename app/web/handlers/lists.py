@@ -1,7 +1,7 @@
 from fasthtml.common import *
 from datetime import date
 from app.web.client.lists import get_my_lists
-from app.web.components.lists import lists
+from app.web.components.lists import lists_with_actions
 
 
 def register_list_routes(rt):
@@ -22,6 +22,6 @@ def register_list_routes(rt):
             token=token,
             selected_date=selected_date
         )
-        lists_html = lists(lists_data)
+        lists_with_actions_html = lists_with_actions(lists_data)
 
-        return lists_html
+        return lists_with_actions_html

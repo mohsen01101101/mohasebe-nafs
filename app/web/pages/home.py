@@ -4,7 +4,7 @@ from app.core.constants import IRAN_TZ
 from app.web.layouts.base import app_layout
 from app.web.client.lists import get_my_lists
 from app.web.components.datepicker import datepicker
-from app.web.components.lists import lists
+from app.web.components.lists import lists_with_actions
 
 
 def home(req: Request):
@@ -14,7 +14,7 @@ def home(req: Request):
         token=token,
         selected_date=datetime.now(IRAN_TZ).date()
     )
-    lists_html = lists(lists_data)
+    lists_with_actions_html = lists_with_actions(lists_data)
 
     page_content = (
         H1(
@@ -25,7 +25,7 @@ def home(req: Request):
 
         datepicker(),
 
-        lists_html
+        lists_with_actions_html
     )
 
     return app_layout(
