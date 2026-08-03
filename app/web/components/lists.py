@@ -41,7 +41,7 @@ def lists_overview(lists_data: list[dict[str, str | int]]):
 
         id="lists_overview-container",
         hx_get="/web-api/lists/overview",
-        hx_trigger="load, lists:changed from:body",
+        hx_trigger="lists:changed from:body",
         hx_swap="outerHTML"
     )
 
