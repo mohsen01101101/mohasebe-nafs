@@ -12,7 +12,7 @@ class ActionModel(SQLModel, table=True):
     title: str = Field(nullable=False)
     description: str | None = Field(default=None)
     tracking_type: TrackingType = Field(nullable=False)
-    started_date: datetime = Field(
+    started_date: date = Field(
         default_factory=lambda: datetime.now(IRAN_TZ).date())
 
     __table_args__ = (
