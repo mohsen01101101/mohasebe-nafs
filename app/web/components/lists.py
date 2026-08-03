@@ -4,12 +4,6 @@ from fasthtml.common import *
 def lists_overview(lists_data: list[dict[str, str | int]]):
     lists_overview_html = Section(
         Div(
-
-            H2(
-                "لیست های من",
-                cls="text-center text-xl font-bold mb-2"
-            ),
-
             Table(
                 Tbody(
                     *[
