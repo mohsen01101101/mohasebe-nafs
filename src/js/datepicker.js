@@ -4,6 +4,14 @@ function initDatepicker() {
   if (!datepicker) return;
 
   datepicker.addEventListener("change", (event) => {
+    const hiddenInput = document.querySelector(
+      'input[name="selected_date_iso"]',
+    );
+
+    if (hiddenInput) {
+      hiddenInput.value = event.detail.iso;
+    }
+
     document.body.dispatchEvent(
       new CustomEvent("app:dateChanged", {
         detail: {
@@ -14,6 +22,7 @@ function initDatepicker() {
     );
   });
 }
+
 document.addEventListener("DOMContentLoaded", initDatepicker);
 
 function getSelectedDate() {
@@ -29,4 +38,5 @@ function getSelectedDate() {
       })
     : null;
 }
+
 window.getSelectedDate = getSelectedDate;
