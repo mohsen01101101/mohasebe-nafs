@@ -7,6 +7,7 @@ from app.web.handlers.lists import register_list_routes
 from app.web.handlers.actions import register_action_routes
 from app.web.pages.login import login
 from app.web.pages.home import home
+from app.web.pages.lists import lists
 
 
 app, rt = fast_app(
@@ -34,8 +35,13 @@ def get(req: Request):  # pyright: ignore[reportRedeclaration]
 
 
 @rt("/")
-def get(req: Request):
+def get(req: Request):  # pyright: ignore[reportRedeclaration]
     return home(req)
+
+
+@rt("/lists")
+def get(req: Request):
+    return lists(req)
 
 
 serve()
