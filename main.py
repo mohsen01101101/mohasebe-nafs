@@ -1,12 +1,12 @@
-from fasthtml.common import fast_app, serve, Redirect, Request
+from fasthtml.common import fast_app, serve, Request
 from app.api.main import api_app
 from app.core.config import settings
 from app.web.middleware.auth import before
-from app.web.pages.home import home
-from app.web.pages.login import login
-from app.web.client.auth import login as client_login
+from app.web.handlers.auth import register_auth_routes
 from app.web.handlers.lists import register_list_routes
 from app.web.handlers.actions import register_action_routes
+from app.web.pages.login import login
+from app.web.pages.home import home
 
 
 app, rt = fast_app(
@@ -23,6 +23,7 @@ app.mount(
 )
 
 
+register_auth_routes(rt)
 register_list_routes(rt)
 register_action_routes(rt)
 
@@ -30,22 +31,6 @@ register_action_routes(rt)
 @rt("/login")
 def get(req: Request):  # pyright: ignore[reportRedeclaration]
     return login(req)
-
-
-@rt("/login")
-def post(
-    phone_number: str,
-    password: str,
-    session
-):
-    data = client_login(
-        phone_number=phone_number,
-        password=password
-    )
-
-    session["access_token"] = data["access_token"]
-
-    return Redirect("/")
 
 
 @rt("/")
