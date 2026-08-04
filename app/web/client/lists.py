@@ -1,6 +1,7 @@
 from app.core.config import settings
 from app.web.client.http import client
 from datetime import date
+from app.schemas.list import ListRead
 
 
 BASE_URL = f"{settings.api_base_url}/users"
@@ -25,7 +26,10 @@ def get_my_lists(
 
     response.raise_for_status()
 
-    return response.json()
+    return [
+        ListRead(**item)
+        for item in response.json()
+    ]
 
 
 def create_list(
@@ -50,7 +54,7 @@ def create_list(
 
     response.raise_for_status()
 
-    return response.json()
+    return ListRead(**response.json())
 
 
 def get_my_list(
@@ -66,7 +70,7 @@ def get_my_list(
 
     response.raise_for_status()
 
-    return response.json()
+    return ListRead(**response.json())
 
 
 def update_list(
@@ -86,7 +90,7 @@ def update_list(
 
     response.raise_for_status()
 
-    return response.json()
+    return ListRead(**response.json())
 
 
 def delete_list(token: str, list_id: int):
