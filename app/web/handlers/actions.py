@@ -1,8 +1,9 @@
 from fasthtml.common import *
 from datetime import datetime
 from app.core.constants import IRAN_TZ
+from app.domain.enum.tracking_type import TrackingType
 from app.web.client import actions as client_actions
-from app.web.components.actions import actions_with_state, action_item_with_state
+from app.web.components.actions import actions_overview, actions_with_state, action_item_with_state
 
 
 def register_action_routes(rt):
@@ -87,3 +88,45 @@ def register_action_routes(rt):
         )
 
         return action_item_with_state_html
+
+    @rt(
+        "/web-api/lists/{list_id}/actions",
+        methods=["POST"]
+    )
+    def create_action(
+        session,
+        list_id: int,
+        title: str,
+        tracking_type: TrackingType,
+        description: str | None = None,
+        is_done: bool | None = None,
+        rating: float | None = None,
+        selected_date_iso: str | None = None
+    ):
+        token = session["access_token"]
+
+        started_at = None
+
+        if selected_date_iso:
+            started_at = datetime.fromisoformat(
+                selected_date_iso.replace("Z", "+00:00")
+            ).astimezone(IRAN_TZ)
+
+        client_actions.create_action(
+            token=token,
+            list_id=list_id,
+            title=title,
+            tracking_type=tracking_type,
+            description=description,
+            is_done=is_done,
+            rating=rating,
+            started_at=started_at
+        )
+
+        response = Response(
+            headers={
+                "HX-Trigger": "actions:changed"
+            }
+        )
+
+        return response
