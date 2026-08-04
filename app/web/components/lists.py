@@ -1,7 +1,8 @@
 from fasthtml.common import *
+from app.schemas.list import ListRead
 
 
-def lists_overview(lists_data: list[dict[str, str | int]]):
+def lists_overview(lists_data: list[ListRead]):
     lists_overview_html = Section(
         Div(
             Table(
@@ -26,17 +27,17 @@ def lists_overview(lists_data: list[dict[str, str | int]]):
     return lists_overview_html
 
 
-def lists_with_actions(lists_data: list[dict[str, str | int]]):
+def lists_with_actions(lists_data: list[ListRead]):
     lists_with_actions_html = Section(
         *[
             Fieldset(
                 Legend(
-                    item["title"],
+                    item.title,
                     cls="fieldset-legend mr-6 p-0"
                 ),
 
                 Div(
-                    hx_get=f"/web-api/lists/{item['id']}/actions",
+                    hx_get=f"/web-api/lists/{item.id}/actions",
                     hx_trigger="load",
                     hx_include="[name='selected_date_iso']",
                     hx_swap="innerHTML"
@@ -57,10 +58,10 @@ def lists_with_actions(lists_data: list[dict[str, str | int]]):
     return lists_with_actions_html
 
 
-def list_row(list_item):
+def list_row(list_item: ListRead):
     list_row_html = Tr(
         Td(
-            list_item["title"],
+            list_item.title,
             cls="font-bold w-full"
         ),
 
@@ -69,23 +70,23 @@ def list_row(list_item):
                 A(
                     "مشاهده",
                     role="button",
-                    href=f"/lists/{list_item['id']}",
+                    href=f"/lists/{list_item.id}",
                     cls="btn btn-sm btn-soft btn-info"
                 ),
 
                 Button(
                     "ویرایش",
-                    hx_get=f"/web-api/lists/{list_item['id']}/edit",
-                    hx_target=f"#list-{list_item['id']}",
+                    hx_get=f"/web-api/lists/{list_item.id}/edit",
+                    hx_target=f"#list-{list_item.id}",
                     hx_swap="outerHTML",
                     cls="btn btn-sm"
                 ),
 
                 Button(
                     "حذف",
-                    hx_delete=f"/web-api/lists/{list_item['id']}",
+                    hx_delete=f"/web-api/lists/{list_item.id}",
                     hx_swap="none",
-                    hx_confirm=f"آیا از حذف لیست «{list_item['title']}» مطمئن هستید؟",
+                    hx_confirm=f"آیا از حذف لیست «{list_item.title}» مطمئن هستید؟",
                     cls="btn btn-sm btn-soft btn-error"
                 ),
 
@@ -93,20 +94,20 @@ def list_row(list_item):
             )
         ),
 
-        id=f"list-{list_item['id']}"
+        id=f"list-{list_item.id}"
     )
 
     return list_row_html
 
 
-def list_edit_row(list_item):
+def list_edit_row(list_item: ListRead):
     list_edit_row_html = Tr(
         Td(
             Input(
-                id=f"list-title-{list_item['id']}",
+                id=f"list-title-{list_item.id}",
                 name="title",
                 type="text",
-                value=list_item["title"],
+                value=list_item.title,
                 cls="input w-full"
             )
         ),
@@ -115,16 +116,16 @@ def list_edit_row(list_item):
             Div(
                 Button(
                     "ذخیره",
-                    hx_patch=f"/web-api/lists/{list_item['id']}",
-                    hx_include=f"#list-title-{list_item['id']}",
+                    hx_patch=f"/web-api/lists/{list_item.id}",
+                    hx_include=f"#list-title-{list_item.id}",
                     hx_swap="none",
                     cls="btn btn-sm btn-soft btn-primary"
                 ),
 
                 Button(
                     "لغو",
-                    hx_get=f"/web-api/lists/{list_item['id']}/row",
-                    hx_target=f"#list-{list_item['id']}",
+                    hx_get=f"/web-api/lists/{list_item.id}/row",
+                    hx_target=f"#list-{list_item.id}",
                     hx_swap="outerHTML",
                     cls="btn btn-sm btn-ghost"
                 ),
@@ -133,7 +134,7 @@ def list_edit_row(list_item):
             )
         ),
 
-        id=f"list-{list_item['id']}"
+        id=f"list-{list_item.id}"
     )
 
     return list_edit_row_html
