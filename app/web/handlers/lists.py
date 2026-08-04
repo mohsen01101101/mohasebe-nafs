@@ -6,7 +6,10 @@ from app.web.components.lists import lists_with_actions, lists_overview, list_ed
 
 
 def register_list_routes(rt):
-    @rt("/web-api/lists/with-actions")
+    @rt(
+        "/web-api/lists/with-actions",
+        methods=["GET"]
+    )
     def get_lists_with_actions(
         session,
         selected_date_iso: str | None = None
@@ -28,7 +31,10 @@ def register_list_routes(rt):
 
         return lists_with_actions_html
 
-    @rt("/web-api/lists/overview")
+    @rt(
+        "/web-api/lists/overview",
+        methods=["GET"]
+    )
     def get_lists_overview(
         session
     ):
@@ -92,7 +98,10 @@ def register_list_routes(rt):
 
         return list_edit_row_html
 
-    @rt("/web-api/lists/{list_id}/row")
+    @rt(
+        "/web-api/lists/{list_id}/row",
+        methods=["GET"]
+    )
     def get_list_row(
         session,
         list_id: int

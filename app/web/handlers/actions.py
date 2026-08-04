@@ -1,12 +1,15 @@
 from fasthtml.common import *
 from datetime import datetime
 from app.core.constants import IRAN_TZ
-from app.web.client.actions import get_my_actions_with_state, update_my_action_state
+from app.web.client import actions as client_actions
 from app.web.components.actions import actions_with_state, action_item_with_state
 
 
 def register_action_routes(rt):
-    @rt("/web-api/lists/{list_id}/actions")
+    @rt(
+        "/web-api/lists/{list_id}/actions",
+        methods=["GET"]
+    )
     def get_actions_with_state(
         session,
         list_id: int,
@@ -21,7 +24,7 @@ def register_action_routes(rt):
                 selected_date_iso.replace("Z", "+00:00")
             ).astimezone(IRAN_TZ).date()
 
-        actions_with_state_data = get_my_actions_with_state(
+        actions_with_state_data = client_actions.get_my_actions_with_state(
             token=token,
             list_id=list_id,
             selected_date=selected_date
@@ -56,7 +59,7 @@ def register_action_routes(rt):
                 selected_date_iso.replace("Z", "+00:00")
             ).astimezone(IRAN_TZ).date()
 
-        update_my_action_state(
+        client_actions.update_my_action_state(
             token=token,
             list_id=list_id,
             action_id=action_id,
@@ -65,7 +68,7 @@ def register_action_routes(rt):
             day=selected_day
         )
 
-        actions_with_state_data = get_my_actions_with_state(
+        actions_with_state_data = client_actions.get_my_actions_with_state(
             token=token,
             list_id=list_id,
             selected_date=selected_day
