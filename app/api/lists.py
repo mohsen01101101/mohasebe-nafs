@@ -74,7 +74,7 @@ def get_my_list(
     return list_item
 
 
-@router.patch("/me/{list_id}", response_model=ListRead)
+@router.patch("/me/lists/{list_id}", response_model=ListRead)
 def update_list(
     list_id: int,
     data: ListUpdate,

@@ -7,32 +7,7 @@ def lists_overview(lists_data: list[dict[str, str | int]]):
             Table(
                 Tbody(
                     *[
-                        Tr(
-                            Td(
-                                item["title"],
-                                cls="w-full"
-                            ),
-
-                            Td(
-                                Div(
-                                    Button(
-                                        "ویرایش",
-                                        cls="btn btn-sm btn-soft"
-                                    ),
-
-                                    Button(
-                                        "حذف",
-                                        hx_delete=f"/web-api/lists/{item['id']}",
-                                        hx_swap="none",
-                                        hx_confirm=f"آیا از حذف لیست «{item['title']}» مطمئن هستید؟",
-                                        cls="btn btn-sm btn-soft btn-error"
-                                    ),
-
-                                    cls="flex gap-2"
-                                )
-                            )
-                        )
-                        for item in lists_data
+                        list_row(item) for item in lists_data
                     ]
                 ),
 
@@ -80,3 +55,78 @@ def lists_with_actions(lists_data: list[dict[str, str | int]]):
     )
 
     return lists_with_actions_html
+
+
+def list_row(list_item):
+    list_row_html = Tr(
+        Td(
+            list_item["title"],
+            cls="w-full"
+        ),
+
+        Td(
+            Div(
+                Button(
+                    "ویرایش",
+                    hx_get=f"/web-api/lists/{list_item['id']}/edit",
+                    hx_target=f"#list-{list_item['id']}",
+                    hx_swap="outerHTML",
+                    cls="btn btn-sm"
+                ),
+
+                Button(
+                    "حذف",
+                    hx_delete=f"/web-api/lists/{list_item['id']}",
+                    hx_swap="none",
+                    hx_confirm=f"آیا از حذف لیست «{list_item['title']}» مطمئن هستید؟",
+                    cls="btn btn-sm btn-soft btn-error"
+                ),
+
+                cls="flex gap-2 justify-end"
+            )
+        ),
+
+        id=f"list-{list_item['id']}"
+    )
+
+    return list_row_html
+
+
+def list_edit_row(list_item):
+    list_edit_row_html = Tr(
+        Td(
+            Input(
+                id=f"list-title-{list_item['id']}",
+                name="title",
+                type="text",
+                value=list_item["title"],
+                cls="input w-full"
+            )
+        ),
+
+        Td(
+            Div(
+                Button(
+                    "ذخیره",
+                    hx_patch=f"/web-api/lists/{list_item['id']}",
+                    hx_include=f"#list-title-{list_item['id']}",
+                    hx_swap="none",
+                    cls="btn btn-sm btn-soft btn-primary"
+                ),
+
+                Button(
+                    "لغو",
+                    hx_get=f"/web-api/lists/{list_item['id']}/row",
+                    hx_target=f"#list-{list_item['id']}",
+                    hx_swap="outerHTML",
+                    cls="btn btn-sm btn-ghost"
+                ),
+
+                cls="flex gap-2 justify-end"
+            )
+        ),
+
+        id=f"list-{list_item['id']}"
+    )
+
+    return list_edit_row_html
