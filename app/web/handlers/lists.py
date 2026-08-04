@@ -4,6 +4,7 @@ from app.core.constants import IRAN_TZ
 from app.web.client.lists import get_my_lists
 from app.web.components.lists import lists_with_actions, lists_overview
 from app.web.client.lists import create_list as client_create_list
+from app.web.client.lists import delete_list as client_delete_list
 
 
 def register_list_routes(rt):
@@ -64,6 +65,27 @@ def register_list_routes(rt):
             token=token,
             title=title,
             created_at=created_at
+        )
+
+        return Response(
+            headers={
+                "HX-Trigger": "lists:changed"
+            }
+        )
+
+    @rt(
+        "/web-api/lists/{list_id}",
+        methods=["DELETE"]
+    )
+    def delete_list(
+        session,
+        list_id: int
+    ):
+        token = session["access_token"]
+
+        client_delete_list(
+            token=token,
+            list_id=list_id
         )
 
         return Response(
