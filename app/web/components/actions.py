@@ -1,17 +1,44 @@
 from fasthtml.common import *
 from app.core.utils.digits_converter import to_persian_digits
-from app.schemas.action import ActionWithStateRead
+from app.schemas.action import ActionRead, ActionWithStateRead
 from app.domain.enum.tracking_type import TrackingType
 
 
-def actions(
+def actions_overview(
+    list_id: int,
+    actions_data: list[ActionRead]
+):
+    actions_overview_html = Section(
+        Div(
+            Table(
+                Tbody(
+                    *[
+                        action_row(
+                            list_id=list_id,
+                            action_item=item
+                        )
+                        for item in actions_data
+                    ]
+                ),
+            ),
+
+            cls="table"
+        ),
+
+        cls="overflow-x-auto"
+    )
+
+    return actions_overview_html
+
+
+def actions_with_state(
     list_id: int,
     actions_data: list[ActionWithStateRead]
 ):
     actions_with_state_html = Section(
         Ul(
             *[
-                action_item(
+                action_item_with_state(
                     list_id=list_id,
                     item=item,
                     index=index
@@ -26,7 +53,56 @@ def actions(
     return actions_with_state_html
 
 
-def action_item(
+def action_row(
+        list_id: int,
+        action_item: ActionRead
+):
+    action_row_html = Tr(
+        Td(
+            Div(
+                action_item.title,
+                cls="font-bold"
+            ),
+
+            Div(
+                action_item.description,
+                cls="text-sm opacity-50"
+            )
+            if action_item.description
+            else None,
+
+            cls="w-full"
+        ),
+
+        Td(
+            Div(
+                Button(
+                    "ویرایش",
+                    hx_get=f"/web-api/lists/{list_id}/actions/{action_item.id}/edit",
+                    hx_target=f"#action-{action_item.id}",
+                    hx_swap="outerHTML",
+                    cls="btn btn-sm"
+                ),
+
+                Button(
+                    "حذف",
+                    hx_delete=f"/web-api/lists/{list_id}/actions/{action_item.id}",
+                    hx_swap="none",
+                    hx_confirm=f"آیا از حذف عمل «{action_item.title}» مطمئن هستید؟",
+                    cls="btn btn-sm btn-soft btn-error"
+                ),
+
+                cls="flex gap-2 justify-end"
+            )
+        ),
+
+        id=f"action-{action_item.id}"
+    )
+
+    return action_row_html
+
+
+def action_item_with_state(
     list_id: int,
     item: ActionWithStateRead,
     index: int
