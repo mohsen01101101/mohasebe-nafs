@@ -1,11 +1,8 @@
 from fasthtml.common import *
-from datetime import datetime, date
+from datetime import datetime
 from app.core.constants import IRAN_TZ
-from app.web.client.lists import get_my_lists
-from app.web.components.lists import lists_with_actions, lists_overview
-from app.web.client.lists import create_list as client_create_list
-from app.web.client.lists import update_list as client_update_list
-from app.web.client.lists import delete_list as client_delete_list
+from app.web.client import lists as client_list
+from app.web.components.lists import lists_with_actions, lists_overview, list_edit_row
 
 
 def register_list_routes(rt):
@@ -23,7 +20,7 @@ def register_list_routes(rt):
                 selected_date_iso.replace("Z", "+00:00")
             ).astimezone(IRAN_TZ).date()
 
-        lists_data = get_my_lists(
+        lists_data = client_list.get_my_lists(
             token=token,
             selected_date=selected_date
         )
@@ -37,7 +34,7 @@ def register_list_routes(rt):
     ):
         token = session["access_token"]
 
-        lists_data = get_my_lists(
+        lists_data = client_list.get_my_lists(
             token=token
         )
         lists_overview_html = lists_overview(lists_data)
@@ -62,7 +59,7 @@ def register_list_routes(rt):
                 selected_date_iso.replace("Z", "+00:00")
             ).astimezone(IRAN_TZ)
 
-        client_create_list(
+        client_list.create_list(
             token=token,
             title=title,
             created_at=created_at
@@ -77,6 +74,25 @@ def register_list_routes(rt):
         return response
 
     @rt(
+        "/web-api/lists/{list_id}/edit",
+        methods=["GET"]
+    )
+    def get_list_edit_row(
+        session,
+        list_id: int
+    ):
+        token = session["access_token"]
+
+        list_item = client_list.get_my_list(
+            token=token,
+            list_id=list_id
+        )
+
+        list_edit_row_html = list_edit_row(list_item)
+
+        return list_edit_row_html
+
+    @rt(
         "/web-api/lists/{list_id}",
         methods=["PATCH"]
     )
@@ -87,7 +103,7 @@ def register_list_routes(rt):
     ):
         token = session["access_token"]
 
-        client_update_list(
+        client_list.update_list(
             token=token,
             list_id=list_id,
             title=title
@@ -111,7 +127,7 @@ def register_list_routes(rt):
     ):
         token = session["access_token"]
 
-        client_delete_list(
+        client_list.delete_list(
             token=token,
             list_id=list_id
         )
