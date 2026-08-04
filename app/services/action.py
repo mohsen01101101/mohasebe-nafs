@@ -11,6 +11,28 @@ class ActionService:
     def __init__(self, session: Session):
         self.session = session
 
+    def get_by_user_id_and_list_id_and_action_id(
+        self,
+        user_id: int,
+        list_id: int,
+        action_id: int,
+    ):
+        user_list = self._get_user_list_by_id(
+            user_id=user_id,
+            list_id=list_id
+        )
+
+        if not user_list:
+            raise ValueError("List not found.")
+
+        statement = select(ActionModel).where(
+            ActionModel.list_id == list_id,
+            ActionModel.id == action_id
+        )
+        result = self.session.exec(statement)
+
+        return result.first()
+
     def get_all(
         self,
         user_id: int,
