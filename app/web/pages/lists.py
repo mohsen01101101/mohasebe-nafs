@@ -27,7 +27,6 @@ def lists(req: Request):
                     type="text",
                     required=True,
                     placeholder="نام لیست *",
-                    title="Title is required",
                     cls="input validator w-full",
                 ),
 

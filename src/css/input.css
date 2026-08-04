@@ -54,4 +54,11 @@ body {
   --doran-radius-lg: var(--radius-box);
   --doran-radius-full: var(--radius-field);
   --doran-border-width: var(--border);
+
+  /* Tracking type selected state */
+  .tracking-type-btn:checked {
+    background-color: var(--color-neutral);
+    border-color: var(--color-neutral);
+    color: var(--color-neutral-content);
+  }
 }
