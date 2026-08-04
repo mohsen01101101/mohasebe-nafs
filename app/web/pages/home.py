@@ -25,7 +25,14 @@ def home(req: Request):
 
         datepicker(),
 
-        lists_with_actions_html
+        lists_with_actions_html,
+
+        A(
+            "مشاهده و ویرایش لیست‌ها",
+            role="button",
+            href="/lists",
+            cls="btn mt-4"
+        )
     )
 
     return app_layout(
