@@ -30,49 +30,6 @@ def get_my_actions(
     return actions
 
 
-@router.get("/me/lists/{list_id}/actions/{action_id}", response_model=ActionRead)
-def get_my_action(
-    list_id: int,
-    action_id: int,
-    current_user: UserModel = Depends(get_current_user),
-    service: ActionService = Depends(get_action_service)
-):
-    assert current_user.id is not None
-
-    action_item = service.get_by_user_id_and_list_id_and_action_id(
-        user_id=current_user.id,
-        list_id=list_id,
-        action_id=action_id
-    )
-
-    if action_item is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Action not found."
-        )
-
-    return action_item
-
-
-@router.get("/me/lists/{list_id}/actions/{action_id}/state", response_model=ActionStateRead)
-def get_my_action_state_by_day(
-    list_id: int,
-    action_id: int,
-    day: date | None = None,
-    current_user: UserModel = Depends(get_current_user),
-    service: ActionStateService = Depends(get_action_state_service)
-):
-    assert current_user.id is not None
-    action_state = service.get_by_day(
-        user_id=current_user.id,
-        list_id=list_id,
-        action_id=action_id,
-        day=day
-    )
-
-    return action_state
-
-
 @router.get("/me/lists/{list_id}/actions/daily", response_model=list[ActionWithStateRead])
 def get_my_actions_with_state_by_day(
     list_id: int,
@@ -120,6 +77,49 @@ def create_action(
             status_code=400,
             detail=str(e)
         )
+
+
+@router.get("/me/lists/{list_id}/actions/{action_id}", response_model=ActionRead)
+def get_my_action(
+    list_id: int,
+    action_id: int,
+    current_user: UserModel = Depends(get_current_user),
+    service: ActionService = Depends(get_action_service)
+):
+    assert current_user.id is not None
+
+    action_item = service.get_by_user_id_and_list_id_and_action_id(
+        user_id=current_user.id,
+        list_id=list_id,
+        action_id=action_id
+    )
+
+    if action_item is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Action not found."
+        )
+
+    return action_item
+
+
+@router.get("/me/lists/{list_id}/actions/{action_id}/state", response_model=ActionStateRead)
+def get_my_action_state_by_day(
+    list_id: int,
+    action_id: int,
+    day: date | None = None,
+    current_user: UserModel = Depends(get_current_user),
+    service: ActionStateService = Depends(get_action_state_service)
+):
+    assert current_user.id is not None
+    action_state = service.get_by_day(
+        user_id=current_user.id,
+        list_id=list_id,
+        action_id=action_id,
+        day=day
+    )
+
+    return action_state
 
 
 @router.patch("/me/lists/{list_id}/actions/{action_id}", response_model=ActionRead)
