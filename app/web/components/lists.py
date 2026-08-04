@@ -66,6 +66,13 @@ def list_row(list_item):
 
         Td(
             Div(
+                A(
+                    "مشاهده",
+                    role="button",
+                    href=f"/lists/{list_item['id']}",
+                    cls="btn btn-sm btn-soft btn-info"
+                ),
+
                 Button(
                     "ویرایش",
                     hx_get=f"/web-api/lists/{list_item['id']}/edit",
