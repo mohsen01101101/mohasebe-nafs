@@ -52,6 +52,28 @@ def create_list(
         )
 
 
+@router.get("/me/lists/{list_id}", response_model=ListRead)
+def get_my_list(
+    list_id: int,
+    current_user: UserModel = Depends(get_current_user),
+    service: ListService = Depends(get_list_service)
+):
+    assert current_user.id is not None
+
+    list_item = service.get_by_user_id_and_list_id(
+        user_id=current_user.id,
+        list_id=list_id
+    )
+
+    if list_item is None:
+        raise HTTPException(
+            status_code=404,
+            detail="List not found."
+        )
+
+    return list_item
+
+
 @router.patch("/me/{list_id}", response_model=ListRead)
 def update_list(
     list_id: int,
