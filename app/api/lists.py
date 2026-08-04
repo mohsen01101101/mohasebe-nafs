@@ -77,7 +77,7 @@ def update_list(
         )
 
 
-@router.delete("/me/{list_id}", status_code=204)
+@router.delete("/me/lists/{list_id}", status_code=204)
 def delete_list(
     list_id: int,
     current_user: UserModel = Depends(get_current_user),

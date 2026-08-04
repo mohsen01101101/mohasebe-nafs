@@ -8,7 +8,7 @@ from app.web.client.lists import create_list as client_create_list
 
 def register_list_routes(rt):
     @rt("/web-api/lists/with-actions")
-    def get_lists(
+    def get_lists_with_actions(
         session,
         selected_date_iso: str | None = None
     ):
@@ -43,7 +43,7 @@ def register_list_routes(rt):
         return lists_overview_html
 
     @rt(
-        "/lists",
+        "/web-api/lists",
         methods=["POST"]
     )
     def create_list(

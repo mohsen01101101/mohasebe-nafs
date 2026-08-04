@@ -4,7 +4,7 @@ from app.web.client.auth import login
 
 def register_auth_routes(rt):
     @rt(
-        "/login",
+        "/web-api/login",
         methods=["POST"]
     )
     def login_submit(

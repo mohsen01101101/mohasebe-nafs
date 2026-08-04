@@ -62,7 +62,7 @@ def login(req: Request):
                 cls="btn btn-primary mt-4"
             ),
 
-            action="/login",
+            action="/web-api/login",
             method="post",
             cls="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
         ),

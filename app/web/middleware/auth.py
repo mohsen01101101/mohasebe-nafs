@@ -12,7 +12,7 @@ def auth_before(req: Request, session):
     path = req.url.path
     is_authenticated = bool(session.get("access_token"))
 
-    if path.startswith("/login"):
+    if path.startswith(("/login", "/web-api/login")):
         if is_authenticated:
             return Redirect("/")
 

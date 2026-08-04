@@ -46,7 +46,7 @@ def lists(req: Request):
                 cls="btn btn-primary mt-4"
             ),
 
-            hx_post="/lists",
+            hx_post="/web-api/lists",
             hx_swap="none",
             cls="fieldset bg-base-200 border-base-300 rounded-box border p-4"
         ),
