@@ -38,6 +38,27 @@ def register_action_routes(rt):
         return actions_with_state_html
 
     @rt(
+        "/web-api/lists/{list_id}/actions/overview",
+        methods=["GET"]
+    )
+    def get_list_actions_overview(
+        session,
+        list_id: int
+    ):
+        token = session["access_token"]
+
+        actions_data = client_actions.get_my_actions(
+            token=token,
+            list_id=list_id
+        )
+        actions_overview_html = actions_overview(
+            list_id=list_id,
+            actions_data=actions_data
+        )
+
+        return actions_overview_html
+
+    @rt(
         "/web-api/lists/{list_id}/actions/{action_id}/state",
         methods=["PATCH"]
     )

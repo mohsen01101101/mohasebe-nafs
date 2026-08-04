@@ -20,12 +20,17 @@ def actions_overview(
                         for item in actions_data
                     ]
                 ),
+
+                cls="table"
             ),
 
-            cls="table"
+            cls="overflow-x-auto"
         ),
 
-        cls="overflow-x-auto"
+        id="actions_overview-container",
+        hx_get=f"/web-api/lists/{list_id}/actions/overview",
+        hx_trigger="actions:changed from:body",
+        hx_swap="outerHTML"
     )
 
     return actions_overview_html
