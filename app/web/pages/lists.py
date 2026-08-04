@@ -5,6 +5,7 @@ from app.web.layouts.base import app_layout
 from app.web.client.lists import get_my_lists
 from app.web.components.datepicker import datepicker
 from app.web.components.lists import lists_overview
+from app.web.components.back_button import back_button
 
 
 def lists(req: Request):
@@ -55,11 +56,15 @@ def lists(req: Request):
             "لیست‌های من",
             cls="text-center text-xl font-bold mt-8 mb-2"
         ),
-        lists_overview_html
+        lists_overview_html,
+
+        back_button(
+            href="/"
+        )
     )
 
     return app_layout(
         req=req,
         page_content=page_content,
-        title="صفحه اصلی"
+        title="صفحه لیست‌ها"
     )
