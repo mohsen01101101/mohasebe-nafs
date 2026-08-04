@@ -68,11 +68,13 @@ def register_list_routes(rt):
             created_at=created_at
         )
 
-        return Response(
+        response = Response(
             headers={
                 "HX-Trigger": "lists:changed"
             }
         )
+
+        return response
 
     @rt(
         "/web-api/lists/{list_id}",
@@ -91,11 +93,13 @@ def register_list_routes(rt):
             title=title
         )
 
-        return Response(
+        response = Response(
             headers={
                 "HX-Trigger": "lists:changed"
             }
         )
+
+        return response
 
     @rt(
         "/web-api/lists/{list_id}",
