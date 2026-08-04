@@ -22,6 +22,9 @@ def lists_overview(lists_data: list[dict[str, str | int]]):
 
                                     Button(
                                         "حذف",
+                                        hx_delete=f"/web-api/lists/{item['id']}",
+                                        hx_swap="none",
+                                        hx_confirm=f"آیا از حذف لیست «{item['title']}» مطمئن هستید؟",
                                         cls="btn btn-sm btn-soft btn-error"
                                     ),
 
