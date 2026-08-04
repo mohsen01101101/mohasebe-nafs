@@ -33,8 +33,6 @@ def get_my_actions(
         for item in response.json()
     ]
 
-    # return response.json()
-
 
 def get_my_actions_with_state(
     token: str,
@@ -103,6 +101,23 @@ def create_action(
     response.raise_for_status()
 
     return response.json()
+
+
+def get_my_action(
+        token: str,
+        list_id: int,
+        action_id: int
+):
+    response = client.get(
+        url=f"{BASE_URL}/me/lists/{list_id}/actions/{action_id}",
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    response.raise_for_status()
+
+    return ActionRead(**response.json())
 
 
 def update_my_action(
