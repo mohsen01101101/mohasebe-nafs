@@ -2,7 +2,7 @@ from fasthtml.common import *
 from datetime import datetime
 from app.core.constants import IRAN_TZ
 from app.web.client.actions import get_my_actions_with_state, update_my_action_state
-from app.web.components.actions import actions, action_item
+from app.web.components.actions import actions_with_state, action_item_with_state
 
 
 def register_action_routes(rt):
@@ -26,7 +26,7 @@ def register_action_routes(rt):
             list_id=list_id,
             selected_date=selected_date
         )
-        actions_with_state_html = actions(
+        actions_with_state_html = actions_with_state(
             list_id=list_id,
             actions_data=actions_with_state_data
         )
@@ -77,10 +77,10 @@ def register_action_routes(rt):
             if item.id == action_id
         )
 
-        action_with_state_html = action_item(
+        action_item_with_state_html = action_item_with_state(
             list_id=list_id,
             item=updated_action,
             index=index
         )
 
-        return action_with_state_html
+        return action_item_with_state_html

@@ -61,7 +61,7 @@ def list_row(list_item):
     list_row_html = Tr(
         Td(
             list_item["title"],
-            cls="w-full"
+            cls="font-bold w-full"
         ),
 
         Td(
