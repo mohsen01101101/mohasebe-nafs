@@ -151,3 +151,28 @@ def register_action_routes(rt):
         )
 
         return response
+
+    @rt(
+        "/web-api/lists/{list_id}/actions/{action_id}",
+        methods=["DELETE"]
+    )
+    def delete_list(
+        session,
+        list_id: int,
+        action_id: int
+    ):
+        token = session["access_token"]
+
+        client_actions.delete_action(
+            token=token,
+            list_id=list_id,
+            action_id=action_id
+        )
+
+        response = Response(
+            headers={
+                "HX-Trigger": "actions:changed"
+            }
+        )
+
+        return response
