@@ -3,7 +3,7 @@ from datetime import datetime
 from app.core.constants import IRAN_TZ
 from app.domain.enum.tracking_type import TrackingType
 from app.web.client import actions as client_actions
-from app.web.components.actions import actions_overview, actions_with_state, action_item_with_state
+from app.web.components.actions import actions_overview, actions_with_state, action_row, action_item_with_state, action_edit_row
 
 
 def register_action_routes(rt):
@@ -142,6 +142,83 @@ def register_action_routes(rt):
             is_done=is_done,
             rating=rating,
             started_at=started_at
+        )
+
+        response = Response(
+            headers={
+                "HX-Trigger": "actions:changed"
+            }
+        )
+
+        return response
+
+    @rt(
+        "/web-api/lists/{list_id}/actions/{action_id}/edit",
+        methods=["GET"]
+    )
+    def get_action_edit_row(
+        session,
+        list_id: int,
+        action_id: int
+    ):
+        token = session["access_token"]
+
+        action_item = client_actions.get_my_action(
+            token=token,
+            list_id=list_id,
+            action_id=action_id
+        )
+
+        action_edit_row_html = action_edit_row(
+            list_id=list_id,
+            action_item=action_item
+        )
+
+        return action_edit_row_html
+
+    @rt(
+        "/web-api/lists/{list_id}/actions/{action_id}/row",
+        methods=["GET"]
+    )
+    def get_list_row(
+        session,
+        list_id: int,
+        action_id: int
+    ):
+        token = session["access_token"]
+
+        action_item = client_actions.get_my_action(
+            token=token,
+            list_id=list_id,
+            action_id=action_id
+        )
+
+        action_row_html = action_row(
+            list_id=list_id,
+            action_item=action_item
+        )
+
+        return action_row_html
+
+    @rt(
+        "/web-api/lists/{list_id}/actions/{action_id}",
+        methods=["PATCH"]
+    )
+    def update_action(
+        session,
+        list_id: int,
+        action_id: int,
+        title: str | None = None,
+        description: str | None = None
+    ):
+        token = session["access_token"]
+
+        client_actions.update_my_action(
+            token=token,
+            list_id=list_id,
+            action_id=action_id,
+            title=title,
+            description=description
         )
 
         response = Response(

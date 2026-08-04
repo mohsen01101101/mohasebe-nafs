@@ -319,3 +319,56 @@ def action_item_with_state(
     )
 
     return action_with_state_html
+
+
+def action_edit_row(
+    list_id: int,
+    action_item: ActionRead
+):
+    action_edit_row_html = Tr(
+        Td(
+            Input(
+                id=f"action-title-{action_item.id}",
+                name="title",
+                type="text",
+                value=action_item.title,
+                cls="input w-full"
+            ),
+
+            Input(
+                id=f"action-title-{action_item.id}",
+                name="description",
+                type="text",
+                value=action_item.description,
+                cls="input input-sm w-full"
+            ),
+
+            cls="flex flex-col gap-1"
+        ),
+
+        Td(
+            Div(
+                Button(
+                    "ذخیره",
+                    hx_patch=f"/web-api/lists/{list_id}/actions/{action_item.id}",
+                    hx_include=f"#action-title-{action_item.id}",
+                    hx_swap="none",
+                    cls="btn btn-sm btn-soft btn-primary"
+                ),
+
+                Button(
+                    "لغو",
+                    hx_get=f"/web-api/lists/{list_id}/actions/{action_item.id}/row",
+                    hx_target=f"#action-{action_item.id}",
+                    hx_swap="outerHTML",
+                    cls="btn btn-sm btn-ghost"
+                ),
+
+                cls="flex gap-2 justify-end"
+            )
+        ),
+
+        id=f"action-{action_item.id}"
+    )
+
+    return action_edit_row_html
