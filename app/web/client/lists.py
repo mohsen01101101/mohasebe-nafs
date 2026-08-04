@@ -53,6 +53,22 @@ def create_list(
     return response.json()
 
 
+def get_my_list(
+        token: str,
+        list_id: int
+):
+    response = client.get(
+        url=f"{BASE_URL}/me/lists/{list_id}",
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    response.raise_for_status()
+
+    return response.json()
+
+
 def update_list(
         token: str,
         list_id: int,
