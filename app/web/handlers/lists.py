@@ -2,7 +2,7 @@ from fasthtml.common import *
 from datetime import datetime
 from app.core.constants import IRAN_TZ
 from app.web.client import lists as client_list
-from app.web.components.lists import lists_with_actions, lists_overview, list_edit_row
+from app.web.components.lists import lists_with_actions, lists_overview, list_edit_row, list_row
 
 
 def register_list_routes(rt):
@@ -91,6 +91,22 @@ def register_list_routes(rt):
         list_edit_row_html = list_edit_row(list_item)
 
         return list_edit_row_html
+
+    @rt("/web-api/lists/{list_id}/row")
+    def get_list_row(
+        session,
+        list_id: int
+    ):
+        token = session["access_token"]
+
+        list_item = client_list.get_my_list(
+            token=token,
+            list_id=list_id
+        )
+
+        list_row_html = list_row(list_item)
+
+        return list_row_html
 
     @rt(
         "/web-api/lists/{list_id}",
