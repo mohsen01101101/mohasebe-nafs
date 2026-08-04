@@ -68,7 +68,7 @@ class ActionService:
             data["description"] = description
 
         if started_at is not None:
-            data["started_at"] = started_at
+            data["started_date"] = started_at
 
         action = ActionModel(**data)
 
