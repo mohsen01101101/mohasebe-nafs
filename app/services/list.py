@@ -8,6 +8,20 @@ class ListService:
     def __init__(self, session: Session):
         self.session = session
 
+    def get_by_user_id_and_list_id(
+            self,
+            user_id: int,
+            list_id: int,
+
+    ):
+        statement = select(ListModel).where(
+            ListModel.user_id == user_id,
+            ListModel.id == list_id
+        )
+        result = self.session.exec(statement)
+
+        return result.first()
+
     def get_all(
         self,
         user_id: int,
