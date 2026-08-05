@@ -1,7 +1,7 @@
 import jdatetime
 from datetime import datetime
 from app.core.constants import IRAN_TZ, MONTHS, WEEKDAYS
-from app.core.utils.digits_converter import to_persian_digits, to_english_digits
+from app.core.utils.digits_converter import to_persian_digits
 
 
 def jalali_today_text():
