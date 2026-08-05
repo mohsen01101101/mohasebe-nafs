@@ -139,3 +139,37 @@ def list_edit_row(list_item: ListRead):
     )
 
     return list_edit_row_html
+
+
+def student_lists_with_actions(
+    user_id: int,
+    lists_data: list[ListRead]
+):
+    student_lists_with_actions_html = Section(
+        *[
+            Fieldset(
+                Legend(
+                    item.title,
+                    cls="fieldset-legend mr-6 p-0"
+                ),
+
+                Div(
+                    hx_get=f"/web-api/users/{user_id}/lists/{item.id}/actions",
+                    hx_trigger="load",
+                    hx_include="[name='selected_date_iso']",
+                    hx_swap="innerHTML"
+                ),
+
+                cls="fieldset bg-base-200 border-base-300 rounded-box border mt-2 p-4"
+            )
+            for item in lists_data
+        ],
+
+        id="student_lists_with_actions-container",
+        hx_get=f"/web-api/{user_id}/lists/with-actions",
+        hx_trigger="app:dateChanged from:body",
+        hx_include="[name='selected_date_iso']",
+        hx_swap="outerHTML"
+    )
+
+    return student_lists_with_actions_html
