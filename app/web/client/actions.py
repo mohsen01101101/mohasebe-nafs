@@ -219,3 +219,30 @@ def get_actions(
     response.raise_for_status()
 
     return response.json()
+
+
+def get_student_actions_with_state(
+    token: str,
+    user_id: int,
+    list_id: int,
+    selected_date: date | None = None
+):
+    params = {}
+
+    if selected_date is not None:
+        params["selected_date"] = selected_date.isoformat()
+
+    response = client.get(
+        url=f"{BASE_URL}/{user_id}/lists/{list_id}/actions/daily",
+        params=params,
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    response.raise_for_status()
+
+    return [
+        ActionWithStateRead(**item)
+        for item in response.json()
+    ]
