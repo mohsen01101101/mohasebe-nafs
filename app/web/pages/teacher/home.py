@@ -1,7 +1,7 @@
 from fasthtml.common import *
 from app.web.layouts.base import app_layout
 from app.web.client.users import get_users
-from app.web.components.students_list import students_list
+from app.web.components.students_overview import students_overview
 
 
 def home(req: Request):
@@ -9,7 +9,7 @@ def home(req: Request):
 
     students_data = get_users(token)
 
-    students_list_html = students_list(students_data)
+    students_overview_html = students_overview(students_data)
 
     page_content = (
         H1(
@@ -17,7 +17,7 @@ def home(req: Request):
             cls="text-center text-2xl font-bold mb-4"
         ),
 
-        students_list_html
+        students_overview_html
     )
 
     return app_layout(

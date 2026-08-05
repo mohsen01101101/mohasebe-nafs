@@ -3,8 +3,8 @@ from app.schemas.user import UserRead
 from app.core.utils.digits_converter import to_persian_digits
 
 
-def students_list(students_data: list[UserRead]):
-    students_list_html = Section(
+def students_overview(students_data: list[UserRead]):
+    students_overview_html = Section(
         Div(
             Table(
                 Tbody(
@@ -24,7 +24,7 @@ def students_list(students_data: list[UserRead]):
                                 A(
                                     "مشاهده",
                                     role="button",
-                                    href=f"/students/{student.id}",
+                                    href=f"/reports/{student.id}",
                                     cls="btn btn-sm btn-wide btn-soft btn-info"
                                 )
                             )
@@ -40,4 +40,4 @@ def students_list(students_data: list[UserRead]):
         ),
     )
 
-    return students_list_html
+    return students_overview_html
