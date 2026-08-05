@@ -6,8 +6,8 @@ from app.core.utils.digits_converter import to_persian_digits
 def header(req: Request):
     user = req.state.user
 
-    name = to_persian_digits(user["name"])
-    phone_number = to_persian_digits(user["phone_number"])
+    name = to_persian_digits(user.name)
+    phone_number = to_persian_digits(user.phone_number)
 
     return (
         Div(

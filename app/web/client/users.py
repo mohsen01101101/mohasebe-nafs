@@ -1,5 +1,6 @@
 from app.core.config import settings
 from app.web.client.http import client
+from app.schemas.user import UserRead
 
 
 BASE_URL = f"{settings.api_base_url}/users"
@@ -28,7 +29,7 @@ def get_me(token: str):
 
     response.raise_for_status()
 
-    return response.json()
+    return UserRead(**response.json())
 
 
 def update_me(

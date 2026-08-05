@@ -1,4 +1,5 @@
 from pydantic import BaseModel, ConfigDict, Field
+from app.domain.enum.role import Role
 
 
 class UserRead(BaseModel):
@@ -7,6 +8,7 @@ class UserRead(BaseModel):
     phone_number: str
     id: int
     name: str
+    role: Role
 
 
 class UserUpdate(BaseModel):

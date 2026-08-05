@@ -1,6 +1,6 @@
 from fasthtml.common import fast_app, serve, Request
 from fastapi import Depends
-from app.db.models.user import UserModel
+from app.schemas.user import UserRead
 from app.api.dependencies import get_current_user
 from app.api.main import api_app
 from app.core.config import settings
@@ -39,24 +39,18 @@ def get(req: Request):  # pyright: ignore[reportRedeclaration]
 
 
 @rt("/")
-def get(  # pyright: ignore[reportRedeclaration]
-    req: Request,
-    current_user: UserModel = Depends(get_current_user)
-):
+def get(req: Request):  # pyright: ignore[reportRedeclaration]
     return home(
         req=req,
-        current_user=current_user
+        current_user=req.state.user
     )
 
 
 @rt("/lists")
-def get(  # pyright: ignore[reportRedeclaration]
-    req: Request,
-    current_user: UserModel = Depends(get_current_user)
-):
+def get(req: Request):  # pyright: ignore[reportRedeclaration]
     return lists(
         req=req,
-        current_user=current_user
+        current_user=req.state.user
     )
 
 
@@ -64,12 +58,11 @@ def get(  # pyright: ignore[reportRedeclaration]
 def get(
     req: Request,
     list_id: int,
-    current_user: UserModel = Depends(get_current_user)
 ):
     return list_actions(
         req=req,
         list_id=list_id,
-        current_user=current_user
+        current_user=req.state.user
     )
 
 
