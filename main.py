@@ -1,4 +1,7 @@
 from fasthtml.common import fast_app, serve, Request
+from fastapi import Depends
+from app.db.models.user import UserModel
+from app.api.dependencies import get_current_user
 from app.api.main import api_app
 from app.core.config import settings
 from app.web.middleware.auth import before
@@ -36,23 +39,37 @@ def get(req: Request):  # pyright: ignore[reportRedeclaration]
 
 
 @rt("/")
-def get(req: Request):  # pyright: ignore[reportRedeclaration]
-    return home(req)
+def get(  # pyright: ignore[reportRedeclaration]
+    req: Request,
+    current_user: UserModel = Depends(get_current_user)
+):
+    return home(
+        req=req,
+        current_user=current_user
+    )
 
 
 @rt("/lists")
-def get(req: Request):  # pyright: ignore[reportRedeclaration]
-    return lists(req)
+def get(  # pyright: ignore[reportRedeclaration]
+    req: Request,
+    current_user: UserModel = Depends(get_current_user)
+):
+    return lists(
+        req=req,
+        current_user=current_user
+    )
 
 
 @rt("/lists/{list_id}")
 def get(
     req: Request,
-    list_id: int
+    list_id: int,
+    current_user: UserModel = Depends(get_current_user)
 ):
     return list_actions(
         req=req,
-        list_id=list_id
+        list_id=list_id,
+        current_user=current_user
     )
 
 

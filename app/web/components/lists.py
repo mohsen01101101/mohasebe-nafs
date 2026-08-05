@@ -79,7 +79,7 @@ def list_row(list_item: ListRead):
                     hx_get=f"/web-api/lists/{list_item.id}/edit",
                     hx_target=f"#list-{list_item.id}",
                     hx_swap="outerHTML",
-                    cls="btn btn-sm"
+                    cls="btn btn-sm btn-soft btn-neutral"
                 ),
 
                 Button(
@@ -107,6 +107,7 @@ def list_edit_row(list_item: ListRead):
                 id=f"list-title-{list_item.id}",
                 name="title",
                 type="text",
+                placeholder="نام لیست *",
                 value=list_item.title,
                 cls="input w-full"
             )

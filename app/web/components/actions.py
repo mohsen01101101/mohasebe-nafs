@@ -86,7 +86,7 @@ def action_row(
                     hx_get=f"/web-api/lists/{list_id}/actions/{action_item.id}/edit",
                     hx_target=f"#action-{action_item.id}",
                     hx_swap="outerHTML",
-                    cls="btn btn-sm"
+                    cls="btn btn-sm btn-soft btn-neutral"
                 ),
 
                 Button(
@@ -331,6 +331,7 @@ def action_edit_row(
                 id=f"action-title-{action_item.id}",
                 name="title",
                 type="text",
+                placeholder="نام عمل *",
                 value=action_item.title,
                 cls="input w-full"
             ),
@@ -339,6 +340,7 @@ def action_edit_row(
                 id=f"action-title-{action_item.id}",
                 name="description",
                 type="text",
+                placeholder="توضیحات",
                 value=action_item.description,
                 cls="input input-sm w-full"
             ),
