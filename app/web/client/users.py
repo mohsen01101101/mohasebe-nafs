@@ -16,7 +16,10 @@ def get_users(token: str):
 
     response.raise_for_status()
 
-    return response.json()
+    return [
+        UserRead.model_validate(user)
+        for user in response.json()
+    ]
 
 
 def get_me(token: str):

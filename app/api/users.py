@@ -8,7 +8,7 @@ from app.api.permissions import require_teacher
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
-@router.get("/", response_model=list[UserRead])
+@router.get("", response_model=list[UserRead])
 def get_users(
     _: UserRead = Depends(require_teacher),
     service: UserService = Depends(get_user_service)
