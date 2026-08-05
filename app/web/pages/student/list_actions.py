@@ -1,6 +1,8 @@
 from fasthtml.common import *
 from datetime import datetime
 from app.core.constants import IRAN_TZ
+from app.web.middleware.permissions import require_student
+from app.schemas.user import UserRead
 from app.web.layouts.base import app_layout
 from app.web.client.lists import get_my_list
 from app.web.client.actions import get_my_actions
@@ -11,8 +13,11 @@ from app.web.components.back_button import back_button
 
 def list_actions(
     req: Request,
-    list_id: int
+    list_id: int,
+    current_user: UserRead
 ):
+    require_student(current_user)
+
     token = req.session["access_token"]
 
     list_item = get_my_list(

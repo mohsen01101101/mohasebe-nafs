@@ -1,7 +1,4 @@
 from fasthtml.common import fast_app, serve, Request
-from fastapi import Depends
-from app.schemas.user import UserRead
-from app.api.dependencies import get_current_user
 from app.api.main import api_app
 from app.core.config import settings
 from app.web.middleware.auth import before
@@ -10,8 +7,8 @@ from app.web.handlers.lists import register_list_routes
 from app.web.handlers.actions import register_action_routes
 from app.web.pages.login import login
 from app.web.pages.home import home
-from app.web.pages.lists import lists
-from app.web.pages.list_actions import list_actions
+from app.web.pages.student.lists import lists
+from app.web.pages.student.list_actions import list_actions
 
 
 app, rt = fast_app(

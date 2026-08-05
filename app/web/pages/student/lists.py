@@ -1,6 +1,8 @@
 from fasthtml.common import *
 from datetime import datetime
 from app.core.constants import IRAN_TZ
+from app.web.middleware.permissions import require_student
+from app.schemas.user import UserRead
 from app.web.layouts.base import app_layout
 from app.web.client.lists import get_my_lists
 from app.web.components.datepicker import datepicker
@@ -8,7 +10,12 @@ from app.web.components.lists import lists_overview
 from app.web.components.back_button import back_button
 
 
-def lists(req: Request):
+def lists(
+    req: Request,
+    current_user: UserRead
+):
+    require_student(current_user)
+
     token = req.session["access_token"]
 
     lists_data = get_my_lists(
