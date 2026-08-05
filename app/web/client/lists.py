@@ -8,8 +8,8 @@ BASE_URL = f"{settings.api_base_url}/users"
 
 
 def get_my_lists(
-        token: str,
-        selected_date: date | None = None
+    token: str,
+    selected_date: date | None = None
 ):
     params = {}
 
@@ -114,4 +114,33 @@ def get_lists(token: str, user_id: int):
 
     response.raise_for_status()
 
-    return response.json()
+    return [
+        ListRead(**item)
+        for item in response.json()
+    ]
+
+
+def get_student_lists_by_date(
+        token: str,
+        user_id: int,
+        selected_date: date | None = None
+):
+    params = {}
+
+    if selected_date is not None:
+        params["selected_date"] = selected_date.isoformat()
+
+    response = client.get(
+        url=f"{BASE_URL}/{user_id}/lists",
+        params=params,
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    response.raise_for_status()
+
+    return [
+        ListRead(**item)
+        for item in response.json()
+    ]
