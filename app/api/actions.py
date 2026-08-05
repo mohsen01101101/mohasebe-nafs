@@ -234,3 +234,23 @@ def get_action_state_by_day(
     )
 
     return action_state
+
+
+@router.get("/{user_id}/lists/{list_id}/actions/daily", response_model=list[ActionWithStateRead])
+def get_student_actions_with_state_by_day(
+    list_id: int,
+    user_id: int,
+    selected_date: date = Query(
+        default_factory=lambda: datetime.now(IRAN_TZ).date()
+    ),
+    service: ActionWithStateService = Depends(
+        get_action_with_state_service
+    )
+):
+    actions_with_state = service.get_actions_with_state(
+        user_id=user_id,
+        list_id=list_id,
+        target_date=selected_date
+    )
+
+    return actions_with_state
