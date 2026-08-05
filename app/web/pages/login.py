@@ -4,7 +4,16 @@ from app.web.layouts.base import auth_layout
 
 
 def login(req: Request):
+    error = req.query_params.get("error")
+
     page_content = Section(
+        Div(
+            "شماره همراه یا رمز عبور اشتباه است.",
+            role="alert",
+            cls="alert alert-error alert-soft mb-4"
+        )
+        if error else None,
+
         Form(
             Label(
                 Span(
