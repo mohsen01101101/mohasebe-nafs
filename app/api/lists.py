@@ -124,8 +124,14 @@ def delete_list(
 def get_lists(
     user_id: int,
     _: UserRead = Depends(require_teacher),
+    selected_date: date = Query(
+        default_factory=lambda: datetime.now(IRAN_TZ).date()
+    ),
     service: ListService = Depends(get_list_service)
 ):
-    lists = service.get_all(user_id)
+    lists = service.get_all(
+        user_id=user_id,
+        selected_date=selected_date
+    )
 
     return lists
