@@ -32,7 +32,8 @@ def register_action_routes(rt):
         )
         actions_with_state_html = actions_with_state(
             list_id=list_id,
-            actions_data=actions_with_state_data
+            actions_data=actions_with_state_data,
+            is_teacher=False
         )
 
         return actions_with_state_html
@@ -105,7 +106,8 @@ def register_action_routes(rt):
         action_item_with_state_html = action_item_with_state(
             list_id=list_id,
             item=updated_action,
-            index=index
+            index=index,
+            is_teacher=False
         )
 
         return action_item_with_state_html
@@ -253,3 +255,36 @@ def register_action_routes(rt):
         )
 
         return response
+
+    @rt(
+        "/web-api/users/{user_id}/lists/{list_id}/actions",
+        methods=["GET"]
+    )
+    def get_student_actions_with_state(
+        session,
+        user_id: int,
+        list_id: int,
+        selected_date_iso: str | None = None
+    ):
+        token = session["access_token"]
+
+        selected_date = None
+
+        if selected_date_iso:
+            selected_date = datetime.fromisoformat(
+                selected_date_iso.replace("Z", "+00:00")
+            ).astimezone(IRAN_TZ).date()
+
+        student_actions_with_state_data = client_actions.get_student_actions_with_state(
+            token=token,
+            user_id=user_id,
+            list_id=list_id,
+            selected_date=selected_date
+        )
+        student_actions_with_state_html = actions_with_state(
+            list_id=list_id,
+            actions_data=student_actions_with_state_data,
+            is_teacher=True
+        )
+
+        return student_actions_with_state_html
