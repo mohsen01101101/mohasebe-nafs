@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException
 from app.schemas.user import UserRead, UserUpdate, UserDelete
 from app.services.user import UserService
 from app.api.dependencies import get_user_service, get_current_user
-from app.db.models.user import UserModel
 from app.api.permissions import require_teacher
 
 
@@ -11,7 +10,7 @@ router = APIRouter(prefix="/users", tags=["Users"])
 
 @router.get("/", response_model=list[UserRead])
 def get_users(
-    _: UserModel = Depends(require_teacher),
+    _: UserRead = Depends(require_teacher),
     service: UserService = Depends(get_user_service)
 ):
     users = service.get_all()
@@ -21,7 +20,7 @@ def get_users(
 
 @router.get("/me", response_model=UserRead)
 def get_me(
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserRead = Depends(get_current_user),
 ):
     return current_user
 
@@ -29,7 +28,7 @@ def get_me(
 @router.patch("/me", response_model=UserRead)
 def update_me(
     data: UserUpdate,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserRead = Depends(get_current_user),
     service: UserService = Depends(get_user_service)
 ):
     assert current_user.id is not None
@@ -54,7 +53,7 @@ def update_me(
 @router.delete("/me", status_code=204)
 def delete_me(
     data: UserDelete,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserRead = Depends(get_current_user),
     service: UserService = Depends(get_user_service)
 ):
     assert current_user.id is not None
@@ -74,7 +73,7 @@ def delete_me(
 @router.get("/{user_id}", response_model=UserRead)
 def get_user_by_id(
     user_id: int,
-    _: UserModel = Depends(require_teacher),
+    _: UserRead = Depends(require_teacher),
     service: UserService = Depends(get_user_service)
 ):
     try:

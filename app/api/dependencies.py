@@ -8,6 +8,7 @@ from app.services.list import ListService
 from app.services.action import ActionService, ActionStateService, ActionWithStateService
 from app.core.security import decode_access_token
 from app.core.config import settings
+from app.schemas.user import UserRead
 
 
 oauth2_scheme = OAuth2PasswordBearer(
@@ -61,7 +62,7 @@ def get_current_user(
 
         user = service.get_by_id(user_id)
 
-        return user
+        return UserRead.model_validate(user)
 
     except (ValueError, KeyError, TypeError) as e:
         raise HTTPException(

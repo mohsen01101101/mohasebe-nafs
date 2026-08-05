@@ -4,7 +4,7 @@ from app.core.constants import IRAN_TZ
 from app.schemas.action import ActionRead, ActionCreate, ActionUpdate, ActionStateRead, ActionStateUpdate, ActionWithStateRead
 from app.api.permissions import require_teacher
 from app.api.dependencies import get_action_service, get_action_state_service, get_action_with_state_service, get_current_user
-from app.db.models.user import UserModel
+from app.schemas.user import UserRead
 from app.services.action import ActionService, ActionStateService, ActionWithStateService
 
 
@@ -14,7 +14,7 @@ router = APIRouter(prefix="/users", tags=["Actions"])
 @router.get("/me/lists/{list_id}/actions", response_model=list[ActionRead])
 def get_my_actions(
     list_id: int,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserRead = Depends(get_current_user),
     selected_date: date = Query(
         default_factory=lambda: datetime.now(IRAN_TZ).date()
     ),
@@ -33,7 +33,7 @@ def get_my_actions(
 @router.get("/me/lists/{list_id}/actions/daily", response_model=list[ActionWithStateRead])
 def get_my_actions_with_state_by_day(
     list_id: int,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserRead = Depends(get_current_user),
     selected_date: date = Query(
         default_factory=lambda: datetime.now(IRAN_TZ).date()
     ),
@@ -55,7 +55,7 @@ def get_my_actions_with_state_by_day(
 def create_action(
     data: ActionCreate,
     list_id: int,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserRead = Depends(get_current_user),
     service: ActionService = Depends(get_action_service)
 ):
     assert current_user.id is not None
@@ -83,7 +83,7 @@ def create_action(
 def get_my_action(
     list_id: int,
     action_id: int,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserRead = Depends(get_current_user),
     service: ActionService = Depends(get_action_service)
 ):
     assert current_user.id is not None
@@ -108,7 +108,7 @@ def get_my_action_state_by_day(
     list_id: int,
     action_id: int,
     day: date | None = None,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserRead = Depends(get_current_user),
     service: ActionStateService = Depends(get_action_state_service)
 ):
     assert current_user.id is not None
@@ -127,7 +127,7 @@ def update_action(
     data: ActionUpdate,
     list_id: int,
     action_id: int,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserRead = Depends(get_current_user),
     service: ActionService = Depends(get_action_service)
 ):
     assert current_user.id is not None
@@ -155,7 +155,7 @@ def update_action_state_by_day(
     data: ActionStateUpdate,
     list_id: int,
     action_id: int,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserRead = Depends(get_current_user),
     service: ActionStateService = Depends(get_action_state_service)
 ):
     assert current_user.id is not None
@@ -183,7 +183,7 @@ def update_action_state_by_day(
 def delete_action(
     list_id: int,
     action_id: int,
-    current_user: UserModel = Depends(get_current_user),
+    current_user: UserRead = Depends(get_current_user),
     service: ActionService = Depends(get_action_service)
 ):
     assert current_user.id is not None
@@ -206,7 +206,7 @@ def delete_action(
 def get_actions(
     user_id: int,
     list_id: int,
-    _: UserModel = Depends(require_teacher),
+    _: UserRead = Depends(require_teacher),
     service: ActionService = Depends(get_action_service)
 ):
     actions = service.get_all(
@@ -223,7 +223,7 @@ def get_action_state_by_day(
     list_id: int,
     action_id: int,
     day: date | None = None,
-    _: UserModel = Depends(require_teacher),
+    _: UserRead = Depends(require_teacher),
     service: ActionStateService = Depends(get_action_state_service)
 ):
     action_state = service.get_by_day(
