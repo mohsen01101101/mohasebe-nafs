@@ -2,7 +2,7 @@ from fasthtml.common import *
 from datetime import datetime
 from app.core.constants import IRAN_TZ
 from app.web.client import lists as client_list
-from app.web.components.lists import lists_with_actions, lists_overview, list_edit_row, list_row
+from app.web.components.lists import lists_with_actions, lists_overview, list_edit_row, list_row, student_lists_with_actions
 
 
 def register_list_routes(rt):
@@ -164,3 +164,32 @@ def register_list_routes(rt):
         )
 
         return response
+
+    @rt(
+        "/web-api/{user_id}/lists/with-actions",
+        methods=["GET"]
+    )
+    def get_student_lists_with_actions(
+        session,
+        user_id: int,
+        selected_date_iso: str | None = None
+    ):
+        token = session["access_token"]
+
+        selected_date = None
+
+        if selected_date_iso:
+            selected_date = datetime.fromisoformat(
+                selected_date_iso.replace("Z", "+00:00")
+            ).astimezone(IRAN_TZ).date()
+
+        student_lists_data = client_list.get_student_lists_by_date(
+            token=token,
+            user_id=user_id,
+            selected_date=selected_date
+        )
+        student_lists_with_actions_html = student_lists_with_actions(
+            user_id=user_id,
+            lists_data=student_lists_data)
+
+        return student_lists_with_actions_html
