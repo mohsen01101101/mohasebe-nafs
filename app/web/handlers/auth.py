@@ -26,3 +26,20 @@ def register_auth_routes(rt):
         session["access_token"] = data["access_token"]
 
         return Redirect("/")
+
+    @rt(
+        "/web-api/logout",
+        methods=["POST"]
+    )
+    def logout(
+        session
+    ):
+        session.pop("access_token", None)
+
+        response = Response(
+            headers={
+                "HX-Redirect": "/login"
+            }
+        )
+
+        return response

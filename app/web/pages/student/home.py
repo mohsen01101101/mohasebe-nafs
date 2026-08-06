@@ -5,6 +5,7 @@ from app.web.layouts.base import app_layout
 from app.web.client.lists import get_my_lists
 from app.web.components.datepicker import datepicker
 from app.web.components.lists import lists_with_actions
+from app.web.components.logout_button import logout_button
 
 
 def home(req: Request):
@@ -32,7 +33,9 @@ def home(req: Request):
             role="button",
             href="/lists",
             cls="btn mt-4"
-        )
+        ),
+
+        logout_button()
     )
 
     return app_layout(
