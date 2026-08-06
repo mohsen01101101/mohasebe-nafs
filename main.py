@@ -7,7 +7,8 @@ from app.web.handlers.lists import register_list_routes
 from app.web.handlers.actions import register_action_routes
 from app.web.pages.login import login
 from app.web.pages.home import home
-from app.web.pages.student.lists import lists
+from app.web.pages.student.lists import lists as student_list
+from app.web.pages.teacher.lists import lists as teacher_list
 from app.web.pages.student.list_actions import list_actions
 from app.web.pages.teacher.reports import reports
 
@@ -46,7 +47,7 @@ def get(req: Request):  # pyright: ignore[reportRedeclaration]
 
 @rt("/lists")
 def get(req: Request):  # pyright: ignore[reportRedeclaration]
-    return lists(
+    return student_list(
         req=req,
         current_user=req.state.user
     )
@@ -65,11 +66,23 @@ def get(  # pyright: ignore[reportRedeclaration]
 
 
 @rt("/reports/{user_id}")
-def get(
+def get(  # pyright: ignore[reportRedeclaration]
     req: Request,
     user_id: int,
 ):
     return reports(
+        req=req,
+        current_user=req.state.user,
+        user_id=user_id
+    )
+
+
+@rt("/reports/{user_id}/lists")
+def get(
+    req: Request,
+    user_id: int,
+):
+    return teacher_list(
         req=req,
         current_user=req.state.user,
         user_id=user_id

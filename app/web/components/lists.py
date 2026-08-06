@@ -27,6 +27,37 @@ def lists_overview(lists_data: list[ListRead]):
     return lists_overview_html
 
 
+def student_lists_overview(
+        user_id: int,
+        lists_data: list[ListRead]
+):
+    student_lists_overview_html = Section(
+        Div(
+            Table(
+                Tbody(
+                    *[
+                        student_list_row(
+                            user_id=user_id,
+                            list_item=item
+                        ) for item in lists_data
+                    ]
+                ),
+
+                cls="table"
+            ),
+
+            cls="overflow-x-auto"
+        ),
+
+        id="student_lists_overview-container",
+        hx_get="/web-api/lists/overview",
+        hx_trigger="lists:changed from:body",
+        hx_swap="outerHTML"
+    )
+
+    return student_lists_overview_html
+
+
 def lists_with_actions(lists_data: list[ListRead]):
     lists_with_actions_html = Section(
         *[
@@ -98,6 +129,31 @@ def list_row(list_item: ListRead):
     )
 
     return list_row_html
+
+
+def student_list_row(
+    user_id: int,
+    list_item: ListRead
+):
+    student_list_row_html = Tr(
+        Td(
+            list_item.title,
+            cls="font-bold w-full"
+        ),
+
+        Td(
+            A(
+                "مشاهده",
+                role="button",
+                href=f"/reports/{user_id}/lists/{list_item.id}",
+                cls="btn btn-sm btn-soft btn-info"
+            ),
+        ),
+
+        id=f"student_list-{list_item.id}"
+    )
+
+    return student_list_row_html
 
 
 def list_edit_row(list_item: ListRead):
