@@ -89,4 +89,4 @@ def get_user_by_id(token: str, user_id: int):
 
     response.raise_for_status()
 
-    return response.json()
+    return UserRead(**response.json())
