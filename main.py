@@ -9,7 +9,8 @@ from app.web.pages.login import login
 from app.web.pages.home import home
 from app.web.pages.student.lists import lists as student_list
 from app.web.pages.teacher.lists import lists as teacher_list
-from app.web.pages.student.list_actions import list_actions
+from app.web.pages.student.list_actions import list_actions as student_list_actions
+from app.web.pages.teacher.list_actions import list_actions as teacher_list_actions
 from app.web.pages.teacher.reports import reports
 
 
@@ -56,9 +57,9 @@ def get(req: Request):  # pyright: ignore[reportRedeclaration]
 @rt("/lists/{list_id}")
 def get(  # pyright: ignore[reportRedeclaration]
     req: Request,
-    list_id: int,
+    list_id: int
 ):
-    return list_actions(
+    return student_list_actions(
         req=req,
         list_id=list_id,
         current_user=req.state.user
@@ -68,7 +69,7 @@ def get(  # pyright: ignore[reportRedeclaration]
 @rt("/reports/{user_id}")
 def get(  # pyright: ignore[reportRedeclaration]
     req: Request,
-    user_id: int,
+    user_id: int
 ):
     return reports(
         req=req,
@@ -78,14 +79,28 @@ def get(  # pyright: ignore[reportRedeclaration]
 
 
 @rt("/reports/{user_id}/lists")
-def get(
+def get(  # pyright: ignore[reportRedeclaration]
     req: Request,
-    user_id: int,
+    user_id: int
 ):
     return teacher_list(
         req=req,
         current_user=req.state.user,
         user_id=user_id
+    )
+
+
+@rt("/reports/{user_id}/lists/{list_id}")
+def get(  # pyright: ignore[reportRedeclaration]
+    req: Request,
+    user_id: int,
+    list_id: int
+):
+    return teacher_list_actions(
+        req=req,
+        current_user=req.state.user,
+        user_id=user_id,
+        list_id=list_id
     )
 
 
