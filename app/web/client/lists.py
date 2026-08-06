@@ -120,6 +120,23 @@ def get_lists(token: str, user_id: int):
     ]
 
 
+def get_list(
+    token: str,
+    user_id: int,
+    list_id: int
+):
+    response = client.get(
+        url=f"{BASE_URL}/{user_id}/lists/{list_id}",
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    response.raise_for_status()
+
+    return ListRead(**response.json())
+
+
 def get_student_lists_by_date(
         token: str,
         user_id: int,
