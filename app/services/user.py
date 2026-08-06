@@ -67,3 +67,31 @@ class UserService:
         self.session.commit()
 
         return None
+
+    # Used only by the internal register_student.py script to create student accounts.
+    def register_student(
+        self,
+        name: str,
+        phone_number: str,
+        password: str,
+    ):
+        statement = select(UserModel).where(
+            UserModel.phone_number == phone_number)
+
+        existing_user = self.session.exec(statement).first()
+
+        if existing_user:
+            raise ValueError("Phone number already exists.")
+
+        user = UserModel(
+            name=name,
+            phone_number=phone_number,
+            password_hash=hash_password(password),
+            role=Role.STUDENT,
+        )
+
+        self.session.add(user)
+        self.session.commit()
+        self.session.refresh(user)
+
+        return user
