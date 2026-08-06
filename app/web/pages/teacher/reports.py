@@ -6,6 +6,7 @@ from app.web.client.users import get_user_by_id
 from app.web.client.lists import get_lists
 from app.web.components.datepicker import datepicker
 from app.web.components.lists import student_lists_with_actions
+from app.web.components.back_button import back_button
 
 
 def reports(
@@ -47,6 +48,10 @@ def reports(
             role="button",
             href=f"/reports/{user_id}/lists",
             cls="btn mt-4"
+        ),
+
+        back_button(
+            href="/"
         )
     )
 
