@@ -3,7 +3,7 @@ from datetime import datetime
 from app.core.constants import IRAN_TZ
 from app.domain.enum.tracking_type import TrackingType
 from app.web.client import actions as client_actions
-from app.web.components.actions import actions_overview, actions_with_state, action_row, action_item_with_state, action_edit_row
+from app.web.components.actions import actions_overview, actions_with_state, action_row, action_item_with_state, action_edit_row, student_actions_overview
 
 
 def register_action_routes(rt):
@@ -288,3 +288,27 @@ def register_action_routes(rt):
         )
 
         return student_actions_with_state_html
+
+    @rt(
+        "/web-api/users/{user_id}/lists/{list_id}/actions/overview",
+        methods=["GET"]
+    )
+    def get_student_actions(
+        session,
+        user_id: int,
+        list_id: int,
+    ):
+        token = session["access_token"]
+
+        student_actions_data = client_actions.get_actions(
+            token=token,
+            user_id=user_id,
+            list_id=list_id
+        )
+        student_actions_html = student_actions_overview(
+            user_id=user_id,
+            list_id=list_id,
+            actions_data=student_actions_data,
+        )
+
+        return student_actions_html

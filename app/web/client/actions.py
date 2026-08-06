@@ -218,7 +218,10 @@ def get_actions(
 
     response.raise_for_status()
 
-    return response.json()
+    return [
+        ActionRead(**item)
+        for item in response.json()
+    ]
 
 
 def get_student_actions_with_state(
