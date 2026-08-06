@@ -135,3 +135,18 @@ def get_lists(
     )
 
     return lists
+
+
+@router.get("/{user_id}/lists/{list_id}", response_model=ListRead)
+def get_list(
+    user_id: int,
+    list_id: int,
+    _: UserRead = Depends(require_teacher),
+    service: ListService = Depends(get_list_service)
+):
+    list_item = service.get_by_user_id_and_list_id(
+        user_id=user_id,
+        list_id=list_id
+    )
+
+    return list_item
