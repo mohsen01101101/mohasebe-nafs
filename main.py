@@ -1,4 +1,4 @@
-from fasthtml.common import fast_app, serve, Request
+from fasthtml.common import fast_app, serve, FileResponse, Request
 from app.api.main import api_app
 from app.core.config import settings
 from app.web.middleware.auth import before
@@ -26,6 +26,16 @@ app.mount(
     path=settings.api_prefix,
     app=api_app
 )
+
+
+@app.get(  # pyright: ignore[reportAttributeAccessIssue]
+    "/build/pwa/manifest.json"
+)
+def manifest():
+    return FileResponse(
+        "static/build/pwa/manifest.json",
+        media_type="application/manifest+json"
+    )
 
 
 register_auth_routes(rt)

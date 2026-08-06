@@ -21,6 +21,11 @@ def base_layout(req: Request, page_content, title="Mohasebe Nafs", show_header_f
                 type="module"
             ),
 
+            Link(
+                rel="manifest",
+                href="/build/pwa/manifest.json"
+            ),
+
             Title(title)
         ),
 
