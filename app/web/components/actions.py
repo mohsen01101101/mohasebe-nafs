@@ -36,6 +36,38 @@ def actions_overview(
     return actions_overview_html
 
 
+def student_actions_overview(
+    user_id: int,
+    list_id: int,
+    actions_data: list[ActionRead]
+):
+    student_actions_overview_html = Section(
+        Div(
+            Table(
+                Tbody(
+                    *[
+                        student_action_row(
+                            action_item=item
+                        )
+                        for item in actions_data
+                    ]
+                ),
+
+                cls="table"
+            ),
+
+            cls="overflow-x-auto"
+        ),
+
+        id="student_actions_overview-container",
+        hx_get=f"/web-api/user/{user_id}/lists/{list_id}/actions/overview",
+        hx_trigger="actions:changed from:body",
+        hx_swap="outerHTML"
+    )
+
+    return student_actions_overview_html
+
+
 def actions_with_state(
     list_id: int,
     actions_data: list[ActionWithStateRead],
@@ -107,6 +139,24 @@ def action_row(
     )
 
     return action_row_html
+
+
+def student_action_row(
+        action_item: ActionRead
+):
+    student_action_row_html = Tr(
+        Td(
+            action_item.title,
+            cls="font-bold"
+        ),
+
+        Td(
+            action_item.description,
+            cls="text-sm opacity-50"
+        )
+    )
+
+    return student_action_row_html
 
 
 def action_item_with_state(
