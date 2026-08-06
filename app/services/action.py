@@ -80,6 +80,12 @@ class ActionService:
         if duplicate:
             raise ValueError("The action already exists.")
 
+        if started_at is not None:
+            if started_at.date() < user_list.created_date:
+                raise ValueError(
+                    "Action start date cannot be before list creation date."
+                )
+
         data = {
             "list_id": list_id,
             "title": title,
