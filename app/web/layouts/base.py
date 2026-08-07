@@ -13,6 +13,12 @@ def base_layout(req: Request, page_content, title="Mohasebe Nafs", show_header_f
             ),
 
             Link(
+                rel="icon",
+                type="image/x-icon",
+                href="/build/assets/icons/favicon.ico",
+            ),
+
+            Link(
                 rel="stylesheet",
                 href="/build/css/bundle.css"
             ),
