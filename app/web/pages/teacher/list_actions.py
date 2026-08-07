@@ -1,6 +1,4 @@
 from fasthtml.common import *
-from datetime import datetime
-from app.core.constants import IRAN_TZ
 from app.web.middleware.permissions import require_teacher
 from app.schemas.user import UserRead
 from app.web.layouts.base import app_layout

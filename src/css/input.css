@@ -39,7 +39,7 @@
 
 @font-face {
   font-family: "Vazirmatn";
-  src: url("../assets/fonts/Vazirmatn-VariableFont_wght.ttf") format("truetype");
+  src: url("/build/assets/fonts/Vazirmatn-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
 }
