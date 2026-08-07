@@ -324,7 +324,7 @@ class ActionStateService:
     ):
         statement = select(ActionStateModel).where(
             ActionStateModel.action_id == action_id,
-            ActionStateModel.day == day
+            ActionStateModel.state_date == day
         )
         state = self.session.exec(statement)
 
@@ -337,7 +337,7 @@ class ActionStateService:
     ):
         state = ActionStateModel(
             action_id=action_id,
-            day=day
+            state_date=day
         )
 
         self.session.add(state)

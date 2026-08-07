@@ -31,14 +31,14 @@ class ActionStateModel(SQLModel, table=True):
     action_id: int = Field(foreign_key="action.id", ondelete="CASCADE")
     is_done: bool | None = Field(default=None)
     rating: float | None = Field(default=None)
-    day: date = Field(
+    state_date: date = Field(
         default_factory=lambda: datetime.now(IRAN_TZ).date()
     )
 
     __table_args__ = (
         UniqueConstraint(
             "action_id",
-            "day",
+            "state_date",
             name="unique_action_state_per_day"
         ),
     )
